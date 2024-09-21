@@ -18,7 +18,7 @@ endif
 MLIBS	= -ldmumps -lmpiseq -lpthread -lpord  -lstdc++ $(FLIBS)
 ALGDIR  = ../algorithms
 
-COPTS	= -Wall -pedantic -O2  
+COPTS	= -Wall -pedantic -O2 -fno-pie -no-pie
 CINCLUDES	= -I ../include -I ../algorithms 
 MINCLUDES	= -I ../include -I $(MDIR)/include -I $(MDIR)/libseq
 

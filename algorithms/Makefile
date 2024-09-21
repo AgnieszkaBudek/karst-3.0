@@ -30,7 +30,7 @@ endif
 AR      = ar vr 
 
 
-COPTS	= -Wall -pedantic -O2 
+COPTS	= -Wall -pedantic -O2 -fno-pie -no-pie
 MINCLUDES	= -I $(MDIR)/include -I $(MDIR)/libseq 
 
 CFLAGS	= $(COPTS) $(MINCLUDES) 
