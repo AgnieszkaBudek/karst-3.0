@@ -11,16 +11,6 @@ system_name=$(uname -s)
 # shellcheck disable=SC2039
 if [ "$system_name" = "Linux" ]; then
 	echo "Working on Linux"
-    if [ -n "$buildInputs" ]; then
-	    echo "Inside nix-shell, setting symlink $HOME/.nix-profile -> $buildInputs"
-	    OLD_PROFILE=$(readlink $HOME/.nix-profile)
-	    if [ -n $OLD_PROFILE ]; then
-		   echo "Backing up $HOME/.nix-profile.old -> $OLD_PROFILE"
-		   ln -s $OLD_PROFILE $HOME/.nix-profile.old
-		   unlink $HOME/.nix-profile 
-	    fi
-	    ln -s $buildInputs $HOME/.nix-profile
-    fi
     cd algorithms || exit
     make clean
     make

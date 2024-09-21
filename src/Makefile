@@ -1,11 +1,11 @@
 UNAME := $(shell uname)
 
 ifeq ($(UNAME), Linux)
-	CC		= clang        
+	CC	= clang        
 	CXX 	= clang++                                            
-	FL		= gfortran 
-	MDIR	=  ~/.nix-profile/opt/mumps
-	FLIBS	= -L ~/.nix-profile/lib -lgfortran -lquadmath -lblas
+	FL	= gfortran 
+	MDIR	= $(MUMPS_DIR)
+	FLIBS   = -lgfortran -lquadmath -lblas
 else 
 	CC      = /opt/homebrew/bin/gcc-13
 	CXX 	= /opt/homebrew/bin/g++-13

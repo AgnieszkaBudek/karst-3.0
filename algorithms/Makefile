@@ -4,8 +4,9 @@ ifeq ($(UNAME), Linux)
     CC		= clang
     CXX 	= clang++
     FL		= gfortran
-    MDIR	=  ~/.nix-profile/opt/mumps
-    FLIBS	= -L ~/.nix-profile/lib -lgfortran -lquadmath -lblas
+    MDIR	= $(MUMPS_DIR)
+    # FLIBS	= -L ~/.nix-profile/lib -lgfortran -lquadmath -lblas
+    FLIBS	= -lgfortran -lquadmath -lblas
 else
     # Pobierz wersję macOS
     MACOS_VERSION := $(shell sw_vers -productVersion)
