@@ -225,6 +225,13 @@ Network::Network (string input_file_name) {
 						"\"from_file\" \n \"triangulation\"."<<endl;
 		exit(1);}
 
+//    //Making the inlet/outlet in line - TAK NIE DZIAŁA
+//    for(int i=0;i<N_wi;i++)
+//        wi[i]->xy.y = 0;
+//    //Making the inlet in line
+//    for(int i=0;i<N_wo;i++)
+//        wo[i]->xy.y = N_y;
+
 //Check node/pore sequence (is n[s] connected through p[s])
 	for(int i=0;i<NN;i++)
 		for(int s=0;s<n[i]->b;s++) if(findPore(n[i],n[i]->n[s])!= n[i]->p[s]) {cerr<<"WARNING: Problem with pore/node sequence."<<endl; exit(123);}
