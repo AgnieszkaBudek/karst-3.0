@@ -43,6 +43,8 @@ ofstream_ps & print_grain_with_scaling (ofstream_ps & stream, Grain &g, Network 
 
             auto color = Kolor(color_f * g.Ve / (g.Va + color_f * g.Ve), 0, g.Va / (g.Va + color_f * g.Ve));
             //for(int i=0;i<g.bP;i++) if(g.p[i]->is_fracture) color = Kolor(0.1,0.8,0.1);
+            color=Kolor(0,0,0);
+
 
             double factr = (g.Va + g.Ve + g.Vx)/(g.V0)/2;
             if (factr<0)   factr = 0;
@@ -115,7 +117,7 @@ ofstream_ps & print_grain_with_scaling (ofstream_ps & stream, Grain &g, Network 
 	double factor = 2;
 	if (S.if_precipitation)  color = Kolor( factor*g.Ve/(g.Va+factor*g.Ve),0,g.Va/(g.Va+factor*g.Ve));
     //for(int i=0;i<g.bP;i++) if(g.p[i]->is_fracture) color = Kolor(0.1,0.8,0.1);
-
+    color=Kolor(0,0,0);
 	if(g.bN==3)  stream<<Trojkacik(pp[0],pp[1],pp[2],666,color)<<endl;
 	stream<<Wielobok (g.bN, pp,g.tmp,color)<<endl;
 
@@ -300,11 +302,11 @@ void Print_network_in_dissolution_style (ofstream_ps & stream, Network &S){
 	stream<<"1 setlinejoin"<<endl;
 	stream<<"1 setlinecap" <<endl;
 
-	//title
-	stream<<Kolor(0,0,0);
-	stream<<"/Times-Bold findfont "<< 20./skala<<" scalefont setfont"<<endl;
-	stream<<"0 "<<-450./skala<<" moveto"<<endl;
-	stream<<"0 0 ("<<S.description_note<<") ashow stroke"<<endl<<endl;
+//	//title
+//	stream<<Kolor(0,0,0);
+//	stream<<"/Times-Bold findfont "<< 20./skala<<" scalefont setfont"<<endl;
+//	stream<<"0 "<<-450./skala<<" moveto"<<endl;
+//	stream<<"0 0 ("<<S.description_note<<") ashow stroke"<<endl<<endl;
 
     Kolor  kkk=Kolor(0.0,0.0,0.0);
 
@@ -334,7 +336,7 @@ void Print_network_in_dissolution_style (ofstream_ps & stream, Network &S){
         //if(p.d==0) kkk=Kolor(0,0,1);
 		if(p.x==1) kkk=Kolor(0.0,0.0,0.0);
 
-
+        kkk = Kolor(0.,0.,0.);
 
 		p.tmp=666;  // no printing names
 		if(p.is_fracture || (p.n[0]->xy - p.n[1]->xy < S.N_x*2./3  && p.d<S.N_x*2 && p.n[0]->xy.z == z_to_print && p.n[1]->xy.z == z_to_print)){

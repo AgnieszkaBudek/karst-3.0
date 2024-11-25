@@ -73,12 +73,13 @@ void triangulation(int N_x, int N_y, \
 		for(int i=0; i<NN;i++) {
 			points.push_back(Vector2<double>(RandomFloat(0, N_x), RandomFloat(0, N_y),i));
 		}
+        for(auto &p : points) if(int(p.y)==0) p.y = 0.5;
+        for(auto &p : points) if(int(p.y)==N_y-1) p.y = N_y-0.5;
 		cerr<<"Sorting points (for more readable printing)..."<<endl;
 		std::stable_sort (points.begin(), points.end(), f_weights);
 		int i=0;
 		for(auto &p : points) p.a = i++;
-        for(auto &p : points) if(int(p.y)==0) p.y = 0;
-        for(auto &p : points) if(int(p.y)==N_y-1) p.y = N_y;
+
 	}
 	if (if_verbose_mode){
 		cerr<<endl<<"After generation points."<<endl;

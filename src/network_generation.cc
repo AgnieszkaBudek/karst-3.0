@@ -315,7 +315,7 @@ void Network:: createRandomTrianglesNetwork(int N_x, int N_y){
 
 
 	triangulation(N_x, N_y, points, points_tmp, edges, triangles, if_regular_points, if_periodic_bc,random_seed);
-	cerr<<"Tiangulation for all points done."<<endl;
+	cerr<<"Triangulation for all points done."<<endl;
 
 
 	//export data form points,triangles and edges

@@ -98,8 +98,8 @@ ostream & operator<< (ostream &os, Trojkacik tr) {
     //printing shape
 //    cerr<<"Kolor: "<<tr.k.r<<" "<<tr.k.g<<" "<<tr.k.b<<endl;
 	os<<tr.k;
-	os<<tr.n1<<"moveto "<<tr.n2<<"lineto "<<tr.n3<<"lineto closepath fill stroke"<<endl;
-
+//	os<<tr.n1<<"moveto "<<tr.n2<<"lineto "<<tr.n3<<"lineto closepath fill stroke"<<endl;
+    os<<tr.n1<<"moveto "<<tr.n2<<"lineto "<<tr.n3<<"lineto closepath stroke"<<endl;
 
     if (tr.podpis != 666) {
         //printing label
@@ -119,7 +119,7 @@ ostream & operator<< (ostream &os, Wielobok w) {
 	os<<w.p[0]<<"moveto ";
 	for (int i=1;i<w.b;i++)
 	    os<<w.p[i]<<"lineto ";
-	os<<"closepath fill stroke"<<endl;
+	os<<"closepath  stroke"<<endl;
 
 	if(w.podpis != 666){
         os<<Kolor(0,0,0);
