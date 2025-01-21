@@ -75,6 +75,9 @@ void triangulation(int N_x, int N_y, \
 		}
         for(auto &p : points) if(int(p.y)==0) p.y = 0.5;
         for(auto &p : points) if(int(p.y)==N_y-1) p.y = N_y-0.5;
+        for(auto &p : points) if(int(p.x)==0) p.x = 0.5;
+        for(auto &p : points) if(int(p.x)==N_x-1) p.x = N_x-0.5;
+
 		cerr<<"Sorting points (for more readable printing)..."<<endl;
 		std::stable_sort (points.begin(), points.end(), f_weights);
 		int i=0;
