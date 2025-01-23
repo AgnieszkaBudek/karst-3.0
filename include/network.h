@@ -349,6 +349,7 @@ class Network
 		void find_shortest_path(Node *, Node *); ///< Returns the shortest path between two nodes
         void create_a_fracture(double factor, Node * n_1 = nullptr, Node * n_2 = nullptr );  ///< A single - layer fracture will be created form n_1 to n_2, by default the fracture will start from the center of the system
         void find_R_half(Node*n);
+        void rotate_the_system(bool horizontal=true);
 
 //other output generation (for Rishabh)
 		void write_vtk_data();

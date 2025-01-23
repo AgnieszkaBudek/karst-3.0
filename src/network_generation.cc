@@ -492,6 +492,12 @@ void Network:: createRandomTrianglesNetwork(int N_x, int N_y){
         for (int i=0;i<NP;i++) if( abs(p[i]->n[0]->xy.y-p[i]->n[1]->xy.y)>N_y/2)          p[i]->d = 0;
         for (int i=0;i<NP;i++) if( abs(p[i]->n[0]->t) == 1 &&  abs(p[i]->n[1]->t) == 1)   p[i]->d = 0;
 
+//          for rotating
+//        //cutting horizontal boundary conditions
+//        for (int i=0;i<NP;i++) if( abs(p[i]->n[0]->xy.x-p[i]->n[1]->xy.x)>N_x/2)          p[i]->d = 0;
+//        for (int i=0;i<NP;i++) if( int(p[i]->n[0]->xy.x)%(N_x-1) == 0 &&  int(p[i]->n[1]->xy.x)%(N_x-1) == 0)   p[i]->d = 0;
+//
+
     }
 	//check_network_connections();
 

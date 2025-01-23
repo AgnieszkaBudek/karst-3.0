@@ -51,7 +51,18 @@ int test_dissolution(string config_name){
 
 	Network *S = new Network(config_name);		//creation the system: reading initial parameters form the file
 
+    //S->rotate_the_system();
 	S->evolution(0); 							//evolution of the system
+
+    //S->rotate_the_system(false);
+    for(int i=0;i<S->NG;i++){
+        S->g[i]->Va=S->g[i]->Ve;
+        S->g[i]->Ve=0;
+        S->calculate_initial_total_Va();
+        S->calculate_initial_total_Ve();
+    }
+    S->dt=0.01;       //we need to start new evolution from small dt
+    S->evolution(100);
 
 	delete S;    								//closing the system
 

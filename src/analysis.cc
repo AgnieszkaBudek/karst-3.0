@@ -2,6 +2,78 @@
 #include "printing.h"
 
 
+
+void Network::rotate_the_system(bool horizontal){
+
+    cerr<<"ROtating the system (changing inlet and outlet)"<<endl;
+
+    for (int i = 0; i < N_wi; i++)
+        wi[i]->t = 0;
+    for (int i = 0; i < N_wo; i++)
+        wo[i]->t = 0;
+
+    delete[] wi;
+    delete[] wo;
+    N_wi = 0;
+    N_wo = 0;
+
+    if(horizontal) {
+        for (int i = 0; i < NN; i++) {
+            if (int(n[i]->xy.x) == 0)
+                N_wi++;
+            if (int(n[i]->xy.x) == N_x - 1)
+                N_wo++;
+        }
+        cerr << "N_wi = " << N_wi << endl;
+        cerr << "N_wo = " << N_wo << endl;
+
+        wi = new Node *[N_wi];
+        wo = new Node *[N_wo];
+        int n_wi = 0;
+        int n_wo = 0;
+        for (int i = 0; i < NN; i++) {
+            if (int(n[i]->xy.x) == 0) {
+                wi[n_wi++] = n[i];
+                n[i]->t = 1;
+            }
+            if (int(n[i]->xy.x) == N_x - 1) {
+                wo[n_wo++] = n[i];
+                n[i]->t = -1;
+            }
+        }
+    }
+    else{
+        for (int i = 0; i < NN; i++) {
+            if (int(n[i]->xy.y) == 0)
+                N_wi++;
+            if (int(n[i]->xy.y) == N_y - 1)
+                N_wo++;
+        }
+        cerr << "N_wi = " << N_wi << endl;
+        cerr << "N_wo = " << N_wo << endl;
+
+        wi = new Node *[N_wi];
+        wo = new Node *[N_wo];
+        int n_wi = 0;
+        int n_wo = 0;
+        for (int i = 0; i < NN; i++) {
+            if (int(n[i]->xy.y) == 0) {
+                wi[n_wi++] = n[i];
+                n[i]->t = 1;
+            }
+            if (int(n[i]->xy.y) == N_y - 1) {
+                wo[n_wo++] = n[i];
+                n[i]->t = -1;
+            }
+        }
+    }
+//
+//    //cutting horizontal boundary conditions
+//    for (int i=0;i<NP;i++) if( abs(p[i]->n[0]->xy.x-p[i]->n[1]->xy.x)>N_x/2)          p[i]->d = 0;
+//    for (int i=0;i<NP;i++) if( abs(p[i]->n[0]->t) == 1 &&  abs(p[i]->n[1]->t) == 1)   p[i]->d = 0;
+//
+}
+
 //functions related to evolution
 
 /**
