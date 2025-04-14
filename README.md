@@ -27,6 +27,17 @@ The main purpose of this project is to simulate the dynamics of the system. The 
 The simulation ends either after $T$ time steps (mainly in debugging mode) or when another condition related to the network properties is fulfilled. Typically, we use a breakthrough condition—the simulation stops when the dissolution pattern (a structure consisting of broad, dissolved pores) reaches the outlet of the system.
 
 
+
+## Setup
+
+### External dependencies:
+[MUMPS](https://mumps-solver.org/) - a parallel sparse direct solver
+
+### Installation
+```
+bash build.sh
+```
+
 ## Other remarks:
 
 1. Branches:
