@@ -37,3 +37,10 @@ The simulation ends either after $T$ time steps (mainly in debugging mode) or wh
 
 - fracture: models both dissolution and precipitation along a fracture 
 
+
+
+
+## How to cite
+
+[1] **Budek, A., & Szymczak, P.** (2012). *Network models of dissolution of porous media*. _Physical Review E_, **86**, 056318.  
+ [DOI: 10.1103/PhysRevE.86.056318](https://doi.org/10.1103/PhysRevE.86.056318)
