@@ -1,5 +1,5 @@
 
- # Network model of dissolving porous material
+ # Pore-Network Model of Reactive Transport in Porous Media
 
  ## DESCRIPTION
 
