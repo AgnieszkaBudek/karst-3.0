@@ -33,7 +33,7 @@ The simulation ends either after $T$ time steps (mainly in debugging mode) or wh
 
 - master: two reactions without transversal diffusion
 
-- pure_diffusion: includes transversal diffusion; works only for the first reaction (dissolution)
+- pure_diffusion: includes transversal diffusion; works only for the first reaction (dissolution), has to be tested
 
 - fracture: models both dissolution and precipitation along a fracture 
 
