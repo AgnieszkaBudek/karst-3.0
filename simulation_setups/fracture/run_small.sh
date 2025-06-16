@@ -45,11 +45,11 @@ Da=0.5
 d0=0.3
 for los in 13 #`seq 1 1` # 0.01 0.1 0.25 0.5
 do
-for d0 in 0.24 # 0.2 0.3
+for d0 in 0.1 # 0.2 0.3
 do
 for inlet_cut_factor in 1 #3 4 5
 do
-for kappa in 100  #0.1 0.
+for kappa in 0  #0.1 0.
 do
   for gamma in  1.0 #.01  #1 1.1 1.05  #2 1 1.5   #0.01 0.1 0.2 0.5 1 2 5 10 100
   do
@@ -70,7 +70,9 @@ do
                   echo random_seed = $los
                   echo inlet_cut_factor = $inlet_cut_factor
                   echo if_dynamic_k2 = $if_dynamic_k2
-                  echo merge_factor = 0.0001
+                  echo merge_factor = 0.2
+                  echo G1 = 1000
+
 
 
 

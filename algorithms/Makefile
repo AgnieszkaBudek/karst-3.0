@@ -16,7 +16,7 @@ else
         CXX 	= /opt/homebrew/bin/g++-14
         FL      = /opt/homebrew/bin/gfortran
         MDIR	= ~/Desktop/KARST/MUMPS_5.6.0
-        FLIBS	= -L/opt/homebrew/lib -L/opt/homebrew/Cellar/gcc/14.2.0/lib/gcc/12 -lblas -llapack -lesmumps -lscotch -lscotcherr -lmumps_common -lmetis -lgomp -lgfortran
+        FLIBS	= -L/opt/homebrew/lib -L/opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/14 -lblas -llapack -lesmumps -lscotch -lscotcherr -lmumps_common -lmetis -lgomp -lgfortran
     else
         CC      = clang
         CXX 	= clang++

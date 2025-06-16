@@ -203,7 +203,7 @@ void Network::createHexagonalNetwork(int N, int M){
 
 
 	//optional barrier (resignation form periodic boundary conditions)
-	if  (!if_periodic_bc)  for(int i=0; i<NP; i++) if(p[i]->n[0]->xy - p[i]->n[1]->xy > 5*l0) p[i]->d=0; //old version, leaving unnecessary grains
+	if  (!if_periodic_bc)  for(int i=0; i<NP; i++) if(fabs(p[i]->n[0]->xy - p[i]->n[1]->xy > 5*l0)) p[i]->d=0; //old version, leaving unnecessary grains
 
 
 	for(int i=0;i<NN;i++) if(n[i]->a != i) cerr<<"Warning: problem with nodes names:  " <<i<<"  "<<n[i]->a<<endl;
@@ -517,6 +517,11 @@ void Network:: createRandomTrianglesNetwork(int N_x, int N_y){
 
 	NN_max = NN; NP_max = NP; NG_max = NG;
 
+
+    if (!if_periodic_bc)
+        for(int i=0; i<NP; i++)
+            if(abs(p[i]->n[0]->xy - p[i]->n[1]->xy)>N_x/2)
+                p[i]->d=0;
 
 	check_network_connections();
 	if(if_clear_unused_pores){
