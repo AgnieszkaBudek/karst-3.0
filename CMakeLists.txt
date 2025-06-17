@@ -4,7 +4,7 @@ set(CMAKE_C_COMPILER "gcc")
 set(CMAKE_CXX_COMPILER "g++")
 project(karst)  # Change to your project name
 
-set(CMAKE_CXX_STANDARD 11)  # Set the C++ standard
+set(CMAKE_CXX_STANDARD 20)  # Set the C++ standard
 set(CMAKE_VERBOSE_MAKEFILE ON)
 add_compile_options(-Wall -pedantic -O2)
 
@@ -34,7 +34,7 @@ else()
         set(CMAKE_C_COMPILER /opt/homebrew/bin/gcc-14)
         set(CMAKE_CXX_COMPILER /opt/homebrew/bin/g++-14)
         set(MDIR /Users/agnieszka/Desktop/KARST/MUMPS_5.6.0)
-        set(FLIBS -L/opt/homebrew/lib -L/opt/homebrew/Cellar/gcc/14.2.0_1/lib/gcc/14 -lblas -llapack -lesmumps -lscotch -lscotcherr -lmumps_common -lmetis -lgomp -lgfortran)
+        set(FLIBS -L/opt/homebrew/lib -L/opt/homebrew/Cellar/gcc/14.2.0/lib/gcc/12 -lblas -llapack -lesmumps -lscotch -lscotcherr -lmumps_common -lmetis -lgomp -lgfortran)
         set(MLIBS  -L${MDIR} -L${MDIR}/lib -L${MDIR}/libseq)
     else (MACOS_VERSION GREATER_EQUAL "9.14")
         message(STATUS "Running on an old  MACOS")
@@ -56,7 +56,7 @@ add_executable(karst ${SOURCES})
 # Set compiler flags
 target_compile_options(karst PRIVATE
         -Wall -pedantic -O2
-        -std=c++11 -Weffc++ -Wextra -Wfatal-errors -Wunused -pedantic -w -Winline -O2
+        -std=c++20 -Weffc++ -Wextra -Wfatal-errors -Wunused -pedantic -w -Winline -O2
         )
 
 # Set include directories
