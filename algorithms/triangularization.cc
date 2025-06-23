@@ -84,32 +84,31 @@ void triangulation(int N_x, int N_y, \
 	}
 
 
-//    for(auto &p : points) if(int(p.y)==0) p.y = 0.5;
-//    for(auto &p : points) if(int(p.y)==N_y-1) p.y = N_y-0.5;
+    for(auto &p : points) if(int(p.y)==0) p.y = 0.5;
+    for(auto &p : points) if(int(p.y)==N_y-1) p.y = N_y-0.5;
 
 
     std::vector<Vector2<double> > points_tmp;
 	points_tmp = points;
 	int eps_bc = 20;   //vicinity of mirror nodes to get periodic boundary conditions
-	if(if_periodic_bc){
-		//doubling the point set to get boundary conditions
-		for(const auto &p : points_tmp)		points.push_back(Vector2<double>(p.x+N_x,p.y    ,p.a  +NN));
-		for(const auto &p : points_tmp)		points.push_back(Vector2<double>(p.x-N_x,p.y    ,p.a-2*NN));
-		for(const auto &p : points_tmp)		points.push_back(Vector2<double>(p.x,    p.y+N_y,p.a+3*NN));
-		for(const auto &p : points_tmp)		points.push_back(Vector2<double>(p.x,    p.y-N_y,p.a-4*NN));
 
-		for(const auto &p : points_tmp)		points.push_back(Vector2<double>(p.x-N_x,p.y-N_y,p.a-5*NN));
-		for(const auto &p : points_tmp)		points.push_back(Vector2<double>(p.x+N_x,p.y+N_y,p.a+6*NN));
-		for(const auto &p : points_tmp)		points.push_back(Vector2<double>(p.x-N_x,p.y+N_y,p.a+7*NN));
-		for(const auto &p : points_tmp)		points.push_back(Vector2<double>(p.x+N_x,p.y-N_y,p.a-8*NN));
+    for(const auto &p : points_tmp)		points.push_back(Vector2<double>(p.x+N_x,p.y    ,p.a  +NN));
+    for(const auto &p : points_tmp)		points.push_back(Vector2<double>(p.x-N_x,p.y    ,p.a-2*NN));
+    for(const auto &p : points_tmp)		points.push_back(Vector2<double>(p.x,    p.y+N_y,p.a+3*NN));
+    for(const auto &p : points_tmp)		points.push_back(Vector2<double>(p.x,    p.y-N_y,p.a-4*NN));
 
-	    for (auto it = points.begin(); it != points.end(); ) {
-	        Vector2<double> p = *it;
-	        if(p.x>N_x+eps_bc || p.x<-eps_bc || p.y>N_y+eps_bc || p.y<-eps_bc) it = points.erase(it);
-	        else ++it;
-	    }
+    for(const auto &p : points_tmp)		points.push_back(Vector2<double>(p.x-N_x,p.y-N_y,p.a-5*NN));
+    for(const auto &p : points_tmp)		points.push_back(Vector2<double>(p.x+N_x,p.y+N_y,p.a+6*NN));
+    for(const auto &p : points_tmp)		points.push_back(Vector2<double>(p.x-N_x,p.y+N_y,p.a+7*NN));
+    for(const auto &p : points_tmp)		points.push_back(Vector2<double>(p.x+N_x,p.y-N_y,p.a-8*NN));
 
-	}
+    for (auto it = points.begin(); it != points.end(); ) {
+        Vector2<double> p = *it;
+        if(p.x>N_x+eps_bc || p.x<-eps_bc || p.y>N_y+eps_bc || p.y<-eps_bc) it = points.erase(it);
+        else ++it;
+    }
+
+
 	if(if_verbose_mode){
 		cerr<<endl<<"After adding periodic bc:"<<endl;
 		for(const auto &p : points)  cerr << p << std::endl;

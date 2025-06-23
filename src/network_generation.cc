@@ -424,6 +424,10 @@ void Network:: createRandomTrianglesNetwork(int N_x, int N_y){
 		else     {cerr<<"WARNING: Problem with pore "<<i<<"; None grains!!!"<<endl;}
 		cerr<<"WARNING: Problem with filling info about grains: pore = "<<*p[i]<<endl;}
 
+    if(!if_periodic_bc){
+        for(int i=0; i<NP; i++) if(p[i]->n[0]->xy - p[i]->n[1]->xy > 5*l0) p[i]->d=0;
+    }
+
 
 	//setting initial pore length and optionally adding randomness and
 	if(if_randomness_in_regular_net) add_randomness_to_regular_network(gauss_sigma_d,0);

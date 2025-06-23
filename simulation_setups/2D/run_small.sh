@@ -38,7 +38,8 @@ Da=0.5
 d0=0.1
 los=13
 kappa=0
-for los in `seq 1 1 20`
+G1=1000
+for los in 1
 do
   for gamma in  0 #0.25 0.3 0.8 0.75 1.25   #0.01 0.1 0.2 0.5 1 2 5 10 100
   do
@@ -57,6 +58,7 @@ do
                   echo d_min = $dmin
                   echo if_cut_d_min = $cut
                   echo random_seed = $los
+                  echo G1=$G1
 
 
                 } >> config.txt
