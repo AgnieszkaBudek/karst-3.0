@@ -60,6 +60,7 @@ class Node{
 		bool is_fracture;
         bool is_LHS;        ///< for better printing only (with a fracture)
 
+
 	public:
 
 		Node  (int bb, float tt = 0);

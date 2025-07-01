@@ -255,11 +255,7 @@ void::Network::read_setup_file(ifstream& fp_setup){
             merge_factor = stod(value);
             cerr<< "Setting merge_factor = "<<merge_factor<<endl;}
 
-        else if(name == "C_eq"){
-            C_eq = stod(value);
-            cerr<< "Setting C_eq = "<<C_eq<<endl;
-            Cc_0=-C_eq;
-        }
+
 
         else if(name == "type_of_topology"){
 			type_of_topology =   value;
@@ -286,12 +282,6 @@ void::Network::read_setup_file(ifstream& fp_setup){
             else if (value == "false")   no_max_z  = false;
             else                     cerr<<"WARNING: Wrong value of variable no_max_z. Set true or false."<<endl;
             cerr<< "Setting no_max_z = "<<no_max_z<<endl;}
-
-        else if(name == "sandwich_pores"){
-            if      (value == "true" )   sandwich_pores  = true;
-            else if (value == "false")   sandwich_pores  = false;
-            else                     cerr<<"WARNING: Wrong value of variable sandwich_pores. Set true or false."<<endl;
-            cerr<< "Setting sandwich_pores = "<<sandwich_pores<<endl;}
 
 
         else if(name == "if_periodic_bc"){

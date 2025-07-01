@@ -79,11 +79,27 @@ ofstream_ps & print_grain_with_scaling (ofstream_ps & stream, Grain &g, Network 
         }
 
 		return stream; }
+
 	if(g.Va + g.Ve + g.Vx <=0)  return stream;
 
-	int b = g.bN;
+
+    Kolor color =  Kolor(0.33,0.33,0.33);
+    //fancy color for precipitation
+    double factor = 2;
+    if (S.if_precipitation)  color = Kolor( factor*g.Ve/(g.Va+factor*g.Ve),0,g.Va/(g.Va+factor*g.Ve));
+    //for(int i=0;i<g.bP;i++) if(g.p[i]->is_fracture) color = Kolor(0.1,0.8,0.1);
+
+
+
+    int b = g.bN;
 	Point *PP = S.initial_xy[g.a];
-	for (int i=0;i<b;i++) if(PP[i]-PP[(i+1)%b]>max_distance) return stream;
+	for (int i=0;i<b;i++) if(PP[i]-PP[(i+1)%b]>max_distance){
+//        color = Kolor{0.2,0.8,0.2};
+//        if(PP[(i+2)%b] - PP[(i+1)%b]>max_distance) PP[(i+1)%b] = 0.5*(PP[(i+2)%b]+PP[i]);  //if I want to print all grain at the border
+//        else                                       PP[i]       = 0.5*(PP[(i+1)%b]+PP[(i+2)%b]);
+        //break;
+        return stream;
+    }
 
 	Point *p  = new Point [b];    //initial node position
 	Point *pp = new Point [b];    // rescaled position
@@ -110,11 +126,6 @@ ofstream_ps & print_grain_with_scaling (ofstream_ps & stream, Grain &g, Network 
 
 	g.tmp=666; //g.Ve/(g.Ve+ g.Va); // for not printing the grain labels
 
-	Kolor color =  Kolor(0.33,0.33,0.33);
-	//fancy color for precipitation
-	double factor = 2;
-	if (S.if_precipitation)  color = Kolor( factor*g.Ve/(g.Va+factor*g.Ve),0,g.Va/(g.Va+factor*g.Ve));
-    //for(int i=0;i<g.bP;i++) if(g.p[i]->is_fracture) color = Kolor(0.1,0.8,0.1);
 
 	if(g.bN==3)  stream<<Trojkacik(pp[0],pp[1],pp[2],666,color)<<endl;
 	stream<<Wielobok (g.bN, pp,g.tmp,color)<<endl;
@@ -140,16 +151,16 @@ ofstream_ps & operator  << (ofstream_ps & stream, Node &n){
 
 ofstream_ps & operator << (ofstream_ps & stream, Pore &p){
 
-	Kolor kkk(0.7,0.7,0.7);    //FIXMW: defaoult color Kolor kkk(0.5,0.5,0.5);
+	Kolor kkk(0,0,0 );    //FIXMW: defaoult color Kolor kkk(0.5,0.5,0.5);
 
 
 	//if(p.x==1) kkk=Kolor(0.5,0.5,0.5);  //FIXME: default (0.5,0.5,0.5);
-	if(p.is_fracture) kkk=Kolor(0,0.5,0);        //FIXME: default colors (0,0,0);
+	if(p.is_fracture) kkk=Kolor(0,0,0);        //FIXME: default colors (0,0,0);
 
 	bool if_debug=true;
 	if(p.n[0]->xy - p.n[1]->xy < max_distance && p.d<300&& p.n[0]->xy.z == z_to_print && p.n[1]->xy.z == z_to_print){
-		if (if_debug && p.x==2) stream<<Porek(p.n[0]->xy,p.n[1]->xy,p.d/10,p.tmp,kkk);
-		else                    stream<<Porek(p.n[0]->xy,p.n[1]->xy,p.d/4 ,p.tmp,kkk);
+		if (if_debug && p.x==2) stream<<Porek(p.n[0]->xy,p.n[1]->xy,p.d,p.tmp,kkk);
+		else                    stream<<Porek(p.n[0]->xy,p.n[1]->xy,p.d ,p.tmp,kkk);
 		}
 
 	return stream;}

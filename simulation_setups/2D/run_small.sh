@@ -27,24 +27,28 @@ cp ~/Desktop/KARST/karst_3.0/simulation_setups/2D/config_small.txt ./config.txt 
 
 printf "Running the simulation...\n\n"
 
-Da=0.5
-gamma=1
-kappa=1000
+
 dmin=0.001
 cut=true
 
-
-Da=0.5
-d0=0.1
+Da=1.5
+d0=0.15
 los=13
 kappa=0
-G1=1000
-for los in 1
+gamma=0
+G1=10000
+merge_factor=0.1
+los=1
+
+d0=0.00001
+for d0 in  0.2 # 0.2 0.15
 do
-  for gamma in  0 #0.25 0.3 0.8 0.75 1.25   #0.01 0.1 0.2 0.5 1 2 5 10 100
+for los in 1  10
+do
+  for Da in  0.75  #0.5 0.75 1 1.5  #0.25 0.3 0.8 0.75 1.25   #0.01 0.1 0.2 0.5 1 2 5 10 100
   do
   (
-                param=Da-$Da-d0-$d0-gamma-$gamma-kappa-$kappa-los-$los
+                param=Da-$Da-d0-$d0-gamma-$gamma-kappa-$kappa-merge_factor-$merge_factor-los-$los
                 printf "Creating variant: %s\n" "$param"
                 mkdir $param
                 cd    $param || exit
@@ -58,7 +62,9 @@ do
                   echo d_min = $dmin
                   echo if_cut_d_min = $cut
                   echo random_seed = $los
-                  echo G1=$G1
+                  echo G1 = $G1
+                  echo merge_factor = $merge_factor
+
 
 
                 } >> config.txt
@@ -66,6 +72,7 @@ do
                 ~/Desktop/KARST/karst_3.0/build/karst config.txt  #>wyjscie.out 2>bledy.out&
 
              )
+done
 done
 done
 

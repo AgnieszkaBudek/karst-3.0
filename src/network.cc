@@ -110,7 +110,7 @@ Network::Network (string input_file_name) {
 	gauss_sigma_d                      = 0;    			 //if randomness is on this give information about width of the initial diameter distribution (log normal used here)
 	max_rand_shift_xy                  = 1;       	     //if randomness is on this give information about max shift in positions
     no_max_z                           = false;          //if true the cylinder formulas are always true, the pore always behave as a cylinder not aperture
-    sandwich_pores                     = false;          //if true the cylinder formulas are always true, the pore always behave as a cylinder not aperture
+    sandwich_pores                     = false;          //if true the cylinder formulas are always false, the pore always behave as an aperture not cylinder
 
 
 	//dynamics
@@ -248,11 +248,26 @@ Network::Network (string input_file_name) {
 
 
 //calculating initial Va volume for grains
-	if(if_track_grains){
-		cerr<<"Calculating initial grain volume..."<<endl;
-		if(type_of_topology != "from_file") for(int i=0;i<NG;i++) g[i]->calculate_initial_volume(this);
-		calculate_initial_total_Va();
-		calculate_initial_total_Ve();}
+	if(if_track_grains) {
+        cerr << "Calculating initial grain volume..." << endl;
+        if (type_of_topology != "from_file") for (int i = 0; i < NG; i++) g[i]->calculate_initial_volume(this);
+
+        if (!if_periodic_bc) {
+            for (int i = 0; i < NG; i++)
+                if (g[i]->bP < 3) {
+                    Node **PP = g[i]->n;
+                    for (int k = 0; k < g[i]->bN; k++)
+                        if (PP[k]->xy - PP[(k + 1) % g[i]->bN]->xy > N_x / 2) {
+                            g[i]->Va = g[i]->Va * 2;
+                            break;
+                        }
+                }
+        }
+
+        calculate_initial_total_Va();
+		calculate_initial_total_Ve();
+
+    }
 
 
 //updating pore lengths

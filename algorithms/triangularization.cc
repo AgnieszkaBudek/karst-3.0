@@ -3,7 +3,7 @@
 #include <iterator>
 #include <algorithm>
 #include <array>
-
+#include <deque>
 
 
 //#define VISUALIZATION //only for debugging
@@ -55,6 +55,7 @@ void triangulation(int N_x, int N_y, \
 	int NN = N_x*N_y; //total number of nodes
 
 	std::vector<Vector2<double> > points;
+//    std::deque<Vector2<double> > points;
 	//select nodes
 
 	if (random_seed==-1) srand (time(NULL));
@@ -70,8 +71,19 @@ void triangulation(int N_x, int N_y, \
 	}
 	else{
 		cerr << "Generating " << NN<< " random points." << endl;
-		for(int i=0; i<NN;i++) {
-			points.push_back(Vector2<double>(RandomFloat(0, N_x), RandomFloat(0, N_y),i));
+		for(int i=0; i<NN; i++) {
+            bool new_point=false;
+            Vector2<double> point_tmp;
+            while(!new_point){
+                new_point=true;
+                point_tmp = Vector2<double>{RandomFloat(0, N_x), RandomFloat(0, N_y),i};
+                for (auto p : points)
+                    if(p.dist(point_tmp)<0.7){
+                        new_point=false;
+                        break;
+                    }
+            }
+            points.push_back(point_tmp);
 		}
 		cerr<<"Sorting points (for more readable printing)..."<<endl;
 		std::stable_sort (points.begin(), points.end(), f_weights);
