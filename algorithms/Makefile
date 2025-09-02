@@ -12,11 +12,11 @@ else
     MACOS_MAJOR_VERSION := $(shell echo $(MACOS_VERSION) | awk -F. '{print $$1"."$$2}')
 
 	ifeq ($(shell echo "$(MACOS_MAJOR_VERSION) >= 12.15" | bc), 1)
-        CC      = /opt/homebrew/bin/gcc-14
-        CXX 	= /opt/homebrew/bin/g++-14
+        CC      = /opt/homebrew/bin/gcc-15
+        CXX 	= /opt/homebrew/bin/g++-15
         FL      = /opt/homebrew/bin/gfortran
         MDIR	= ~/Desktop/KARST/MUMPS_5.6.0
-        FLIBS	= -L/opt/homebrew/lib -L/opt/homebrew/Cellar/gcc/14.2.0/lib/gcc/12 -lblas -llapack -lesmumps -lscotch -lscotcherr -lmumps_common -lmetis -lgomp -lgfortran
+        FLIBS	= -L/opt/homebrew/lib -L/opt/homebrew/Cellar/gcc/15.2.0/lib/gcc/12 -lblas -llapack -lesmumps -lscotch -lscotcherr -lmumps_common -lmetis -lgomp -lgfortran
     else
         CC      = clang
         CXX 	= clang++

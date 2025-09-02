@@ -86,7 +86,6 @@ void Network::do_one_euler_step(){
 		else						calculate_concentrations();
 
 	    dissolve();
-        cerr<<"Kocham Janka."<<endl;
 	}
 
 	//checking acid and flow balance

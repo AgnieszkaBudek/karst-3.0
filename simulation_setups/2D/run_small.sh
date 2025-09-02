@@ -41,11 +41,11 @@ merge_factor=0.1
 los=1
 
 d0=0.00001
-for d0 in  0.2 # 0.2 0.15
+for d0 in  0.1 # 0.2 0.15
 do
-for los in 1  10
+for los in 1
 do
-  for Da in  0.75  #0.5 0.75 1 1.5  #0.25 0.3 0.8 0.75 1.25   #0.01 0.1 0.2 0.5 1 2 5 10 100
+  for Da in 1  #0.75  0.5 0.25 0.1 # 1 1.5  #0.25 0.3 0.8 0.75 1.25   #0.01 0.1 0.2 0.5 1 2 5 10 100
   do
   (
                 param=Da-$Da-d0-$d0-gamma-$gamma-kappa-$kappa-merge_factor-$merge_factor-los-$los

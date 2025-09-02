@@ -485,17 +485,31 @@ void Network:: createRandomTrianglesNetwork(int N_x, int N_y){
     else{
         //inlet and outlet pores for square geometry
         for (int i=0; i<NN; i++)
-            if(int(n[i]->xy.y)==0)     N_wo++;
+            if(int(n[i]->xy.y)==0)     N_wi++;
             else break;
         for (int i=NN-1; i>=0; i--)
-            if(int(n[i]->xy.y)==N_y-1) N_wi++;
+            if(int(n[i]->xy.y)==N_y-1) N_wo++;
             else break;
 
         wi = new Node* [N_wi];
         wo = new Node* [N_wo];
+        for(int i=0;i<N_wi;i++) {wi[i] = n[i];      wi[i]->t = 1;}
+        for(int i=0;i<N_wo;i++) {wo[i] = n[NN-i-1]; wo[i]->t = -1;}
 
-        for(int i=0;i<N_wo;i++) {wo[i] = n[i];      wo[i]->t = -1;}
-        for(int i=0;i<N_wi;i++) {wi[i] = n[NN-i-1]; wi[i]->t =  1;}
+//        upside down
+//        //inlet and outlet pores for square geometry
+//        for (int i=0; i<NN; i++)
+//            if(int(n[i]->xy.y)==0)     N_wo++;
+//            else break;
+//        for (int i=NN-1; i>=0; i--)
+//            if(int(n[i]->xy.y)==N_y-1) N_wi++;
+//            else break;
+//
+//        wi = new Node* [N_wi];
+//        wo = new Node* [N_wo];
+//
+//        for(int i=0;i<N_wo;i++) {wo[i] = n[i];      wo[i]->t = -1;}
+//        for(int i=0;i<N_wi;i++) {wi[i] = n[NN-i-1]; wi[i]->t =  1;}
 
         //cutting vertical boundary conditions
         for (int i=0;i<NP;i++) if( abs(p[i]->n[0]->xy.y-p[i]->n[1]->xy.y)>N_y/2)          p[i]->d = 0;
