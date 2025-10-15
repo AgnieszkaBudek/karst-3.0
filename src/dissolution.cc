@@ -53,7 +53,7 @@ void Network::calculate_pressures(){
 		ww_r[r_no] 		= i;
 		ww_c[r_no] 		= i;
 		B[r_no]			=-S;
-		r_no++;	
+		r_no++;
 	}
 	if(r_no!=R_no) {cerr<<"Problem with filling linear equations for pressures!"<<endl; exit(666);}
 
@@ -69,7 +69,7 @@ void Network::calculate_pressures(){
 		cerr<<"Pressure has not been calculated properly."<<endl;  //FIXME: nie sprawdzac tego warunku gdy sprawdzam perkolacje
 		ofstream_txt B_err;
 		B_err     .open("B_err.out",	      ios_base::out | ios_base::trunc );
-		for(int i=0;i<R_no;i++) B_err<<ww_r[i]<<"\t"<<ww_c[i]<<"\t"<<B[i]<<endl;
+                for(int i=0;i<R_no;i++) B_err<<ww_r[i]<<"\t"<<ww_c[i]<<"\t"<<B[i]<<endl;
 		B_err.close();
         if_system_dissolved = true;
 	}

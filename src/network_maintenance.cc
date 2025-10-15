@@ -330,6 +330,7 @@ void Network::clear_unconeccted_pores(){
 */
 void Network::clear_unused_pores(){
 	int NP_tmp = NP;
+
 	for(int i=0;i<NP_tmp;i++) if(p[i]->d==0 && p[i]->a>=0){
 		cerr<<p[i]->a<<" ";
 		p[i]->remove_info_from_attached_nodes();

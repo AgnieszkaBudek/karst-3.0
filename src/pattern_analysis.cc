@@ -273,6 +273,7 @@ int* Network::find_child_distribution (){
 
 int Network::find_percolation(){
 
+
     cerr<<"Checking percolation..."<<endl;
     for (int i =0;i<NN;i++)   n[i]->x=0;
     for (int i =0;i<NP;i++)   p[i]->x=0;

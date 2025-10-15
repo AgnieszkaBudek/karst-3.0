@@ -1,7 +1,7 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 #  Size of the netwrok
 
-N_x = 16         # size of the regular network
+N_x =  17             # size of the regular network (dla 17 mnożnik: l0->alpfa mm alfa = 1.76316) WAŻne!
 N_y = 19         # size of the regular network
 
 
@@ -62,7 +62,7 @@ if_save_txt           = false    # if true data about network (nodes, grains, po
 if_save_topology      = false    # if true topology is saved in each save_all
 if_save_table         = true    # if true tables with diameters, flows and concentration is saved
 if_verbose            = false   # if true verbose version for debugging
-if_debugging_printing = false 	# if true debugging printing is done few time in each time step
+if_debugging_printing = true 	# if true debugging printing is done few time in each time step
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #

@@ -20,7 +20,7 @@ gamma = 1       # parameters of precipitation: V_pre/V_diss
 theta = 1       # parameters of precipitation: G_pre / G_diss
 kappa = 0.5     # parameters of precipitation: Da_pre / Da_diss
 
-d_min = 0.01              # minimal pore diameter
+d_min = 0.001              # minimal pore diameter
 l_min = 0.01            # minimal pore length
 
 

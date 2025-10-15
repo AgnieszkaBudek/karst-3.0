@@ -41,7 +41,7 @@ merge_factor=0.1
 los=1
 
 d0=0.00001
-for d0 in  0.1 # 0.2 0.15
+for d0 in  0.1344444 # 0.2 0.15
 do
 for los in 1
 do

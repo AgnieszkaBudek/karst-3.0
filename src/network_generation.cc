@@ -319,8 +319,10 @@ void Network:: createRandomTrianglesNetwork(int N_x, int N_y){
 
 
 	//export data form points,triangles and edges
+    int extra_n = 0;
+    for(const auto &p : points_tmp) if(p.y<=0.5 or p.y>=N_y-0.5)  extra_n++;
 
-	NN = N_x*N_y; NP = 0; NG = 0;
+	NN = N_x*N_y + extra_n; NP = 0; NG = 0;
 	n = new Node *[NN];
 	cerr<<"Number of nodes: NN = "<<NN<<endl;
 
@@ -329,29 +331,34 @@ void Network:: createRandomTrianglesNetwork(int N_x, int N_y){
 	for(const auto& e : edges){
 		bool if_new = true;
 		for(const auto& e2 : edges2) if(e==e2)  if_new = false;
-		if(if_new) if((e.p1.a<e.p2.a && e.p1.a >=0 && e.p1.a < NN)) edges2.push_back(e);
+		if(if_new) if((e.p1.a<e.p2.a && e.p1.a >=0 && e.p1.a < (N_x*N_y))) edges2.push_back(e);
 	}
 	edges2.swap(edges);
 
 
 	//counting nr of neighbors
 	cerr<<"Counting nr of neighbors..."<<endl;
-	int * tmp1 = new int [NN]; for(int i=0;i<NN;i++) tmp1[i] = 0;
+	int * tmp1 = new int [(N_x*N_y)]; for(int i=0;i<(N_x*N_y);i++) tmp1[i] = 0;
 
 	int NP_tmp = 0;
 	for (const auto &e : edges) {
-		tmp1[e.p1.a%NN]++;
-		tmp1[e.p2.a%NN]++;
+		tmp1[e.p1.a%(N_x*N_y)]++;
+		tmp1[e.p2.a%(N_x*N_y)]++;
 		NP_tmp++;
 	}
 
 	//creating nodes
 	cerr<<"Creating nodes..."<<endl;
+	cerr<<"point_tmp.size() = "<<points_tmp.size()<<endl;
+    int ile_extra=0;
 	for(const auto &p : points_tmp){
 		int i=p.a;
 		int b =tmp1[i];
 		NP+=b;
+        if(p.y<=0.5)      {n[NN-1-ile_extra] = new Node(NN-1-ile_extra,1,0,Point(p.x,-1.5,0));    NP+=2; b++; NP_tmp++; ile_extra++;}
+        if(p.y>=N_y-0.5)  {n[NN-1-ile_extra] = new Node(NN-1-ile_extra,1,0,Point(p.x,N_y+1.5,0)); NP+=2; b++; NP_tmp++; ile_extra++;}
 		n[i] = new Node(i,int(b),0,Point(p.x,p.y,0));   //creating a node
+
 	}
 
 
@@ -359,15 +366,15 @@ void Network:: createRandomTrianglesNetwork(int N_x, int N_y){
 	cerr<<"Numbers of pores "<<NP<<endl;
 	if(NP%2==1) cerr<<"ERROR: Problem with NP = "<<NP<<endl;
 	NP = NP/2;
-	if(NP_tmp != NP) cerr<<"Cos nie tak w liczeniu ilosci porow"<<endl;
+	if(NP_tmp != NP) cerr<<"Cos nie tak w liczeniu ilosci porow"<<endl<<"NP = "<<NP<<"\tNP_tmp  = "<<NP_tmp<<endl;
 	p = new Pore*[NP];
 	for (int i=0;i<NP;i++) p[i] = new Pore (d0, 1, i, 2); //creating pores
 
 	//filling neighbors and pores
 	int j=0; //pore number
-	for(int i=0;i<NN;i++)   n[i]->tmp=0; //counting temporal nr of neighbours
+	for(int i=0;i<N_x*N_y;i++)   n[i]->tmp=0; //counting temporal nr of neighbours
 	for (const auto &e : edges) {
-		Node * n1 = n[e.p1.a%NN]; Node * n2 = n[e.p2.a%NN];
+		Node * n1 = n[e.p1.a%(N_x*N_y)]; Node * n2 = n[e.p2.a%(N_x*N_y)];
 		Pore * p_tmp = findPore(n1,n2);
 		if(p_tmp==NULL){  //to find pore only once
 			if (j>=NP) cerr<<"ERROR: Problem with pore generation: j = "<<j<<endl<<flush;
@@ -378,27 +385,48 @@ void Network:: createRandomTrianglesNetwork(int N_x, int N_y){
 			n2->n[(int)n2->tmp] = n1;  n2->p[(int)n2->tmp++] = p[j];
 			j++;
 			}
-		else cerr<<"WARNING: Double checking of pore!!!"<<e<<endl<<e.p1.a%NN<<" "<<e.p2.a%NN<<endl;
+		else cerr<<"WARNING: Double checking of pore!!!"<<e<<endl<<e.p1.a%(N_x*N_y)<<" "<<e.p2.a%(N_x*N_y)<<endl;
 	}
-	cerr<<"Checking number of connections..."<<endl<<flush;
-	for(int i=0;i<NN;i++)   if(n[i]->tmp!=n[i]->b) cerr<<"ERROR: Problem in triangulation: i = "<< i <<" tmp = "<<n[i]->tmp << "  b = "<<n[i]->b<<endl<<flush;
+    //adding extra pores at the inlet and outlet
+    ile_extra=0;
+	int ile_extra_pores=0;
+    for(int i=0;i<N_x*N_y;i++) {
+        if (n[i]->xy.y <= 0.5 or n[i]->xy.y >=N_y-0.5)      {
+			int j_tmp = NP - (ile_extra) - 1;
+			int i_tmp = NN - (ile_extra) - 1;
+			p[j_tmp] = new Pore(d0, 1,j_tmp, 0); 	//TODO: check if grains are necessery here (can be added later)
+            p[j_tmp]->n[0] = n[i_tmp];
+            p[j_tmp]->n[1] = n[i];
+			p[j_tmp]->l = point_distance (p[j_tmp]->n[0]->xy,p[j_tmp]->n[1]->xy);
+            n[i]->n[(int) n[i]->tmp]      = n[i_tmp];
+			n[i]->p[(int) n[i]->tmp++]    = p[j_tmp];
+            n[i_tmp]->n[0] = n[i];
+			n[i_tmp]->p[0] = p[j_tmp];
+            ile_extra++;
+            j++;
+			ile_extra_pores++;
+        }
+
+    }
+    cerr<<"Checking number of connections..."<<endl<<flush;
+	for(int i=0;i<N_x*N_y;i++)   if(n[i]->tmp!=n[i]->b) cerr<<"ERROR: Problem in triangulation: i = "<< i <<" tmp = "<<n[i]->tmp << "  b = "<<n[i]->b<<endl<<flush;
 
 	if(j!=NP) cerr<<"ERROR: Problem in triangulation: j = "<< j << "  NP = "<< NP <<endl;
 	cerr<<"Calculating grains."<<endl;
 
 	//creating grains
 
-	if(NP%3!=0) cerr<<"ERROR: Problem with number of pores !!! NP/3 = "<<NP/3.<<endl;
-	NG = int(NP*2./3. + 0.9);
+	if((NP-ile_extra_pores)%3!=0) cerr<<"ERROR: Problem with number of pores !!! NP/3 = "<<NP/3.<<endl;
+	NG = int((NP-ile_extra_pores)*2./3. + 0.9);
 	g = new Grain*[NG];
 	cerr<<"Numbers of grain "<<NG<<endl;
 	for(int i=0;i<NG;i++) g[i] = new Grain(i,0,0,0,3,3);
 	int i=0;
 	for (const auto &t : triangles) if(t.p1.a >=0 && t.p2.a >=0 && t.p3.a >=0){
-			if((t.p1.a < NN )||(t.p2.a < NN )||(t.p3.a < NN))
-				if(findGrain_T(n[t.p1.a%NN],n[t.p2.a%NN],n[t.p3.a%NN])==NULL){
+			if((t.p1.a < N_x*N_y )||(t.p2.a < N_x*N_y )||(t.p3.a < N_x*N_y))
+				if(findGrain_T(n[t.p1.a%(N_x*N_y)],n[t.p2.a%(N_x*N_y)],n[t.p3.a%(N_x*N_y)])==NULL){
 					if (i>=NG) cerr<<"ERROR: Problem with pore generation: i = "<<i<<endl<<flush;
-					int a1 = (t.p1.a+10*NN)%NN; int a2 = (t.p2.a+10*NN)%NN; int a3 = (t.p3.a+10*NN)%NN;
+					int a1 = (t.p1.a+10*(N_x*N_y))%(N_x*N_y); int a2 = (t.p2.a+10*(N_x*N_y))%(N_x*N_y); int a3 = (t.p3.a+10*(N_x*N_y))%(N_x*N_y);
 					g[i]->n[0] = n[a1];
 					g[i]->n[1] = n[a2];
 					g[i]->n[2] = n[a3];
@@ -419,7 +447,7 @@ void Network:: createRandomTrianglesNetwork(int N_x, int N_y){
 	NG = i;
 
 	//cheking if each pore has the propoer number of grains
-	for(int i=0;i<NP;i++) for(int j=0;j<p[i]->bG;j++) if(p[i]->g[j]==NULL){
+	for(int i=0;i<NP-ile_extra_pores;i++) for(int j=0;j<p[i]->bG;j++) if(p[i]->g[j]==NULL){
 		if(j==1) p[i]->g[j]=g[j-1];
 		else     {cerr<<"WARNING: Problem with pore "<<i<<"; None grains!!!"<<endl;}
 		cerr<<"WARNING: Problem with filling info about grains: pore = "<<*p[i]<<endl;}
@@ -428,7 +456,7 @@ void Network:: createRandomTrianglesNetwork(int N_x, int N_y){
 
         //setting d=0 at the boundary.
 
-        for (int i=0; i<NP; i++) if(p[i]->n[0]->xy - p[i]->n[1]->xy > 5*l0){
+        for (int i=0; i<NP-ile_extra_pores; i++) if(p[i]->n[0]->xy - p[i]->n[1]->xy > 5*l0){
             p[i]->d=0;
         }
     }
@@ -469,7 +497,7 @@ void Network:: createRandomTrianglesNetwork(int N_x, int N_y){
         for (int i=0; i<NN; i++)
             if(n[i]->xy - xy_center > R) N_wo++;
 
-        // setting the outlets pores
+        // setting the outlet pores
         wo = new Node* [N_wo];
         int j=0;
         for (int i=0; i<NN; i++)
@@ -485,16 +513,20 @@ void Network:: createRandomTrianglesNetwork(int N_x, int N_y){
     else{
         //inlet and outlet pores for square geometry
         for (int i=0; i<NN; i++)
-            if(int(n[i]->xy.y)==0)     N_wi++;
-            else break;
-        for (int i=NN-1; i>=0; i--)
-            if(int(n[i]->xy.y)==N_y-1) N_wo++;
-            else break;
+            if(n[i]->xy.y<0)     N_wi++;
+        for (int i=0; i<NN; i++)
+            if(n[i]->xy.y>N_y) N_wo++;
 
+        cerr<<"N_wi = "<<N_wi<<endl;
+        cerr<<"N_wo = "<<N_wo<<endl;
         wi = new Node* [N_wi];
         wo = new Node* [N_wo];
-        for(int i=0;i<N_wi;i++) {wi[i] = n[i];      wi[i]->t = 1;}
-        for(int i=0;i<N_wo;i++) {wo[i] = n[NN-i-1]; wo[i]->t = -1;}
+        int j=0;
+        for(int i=0;i<NN;i++) if(n[i]->xy.y<0)      {wi[j] = n[i]; wi[j]->t = 1; j++;}
+        j=0;
+        for(int i=0;i<NN;i++) if(n[i]->xy.y>N_y)   	{wo[j] = n[i]; wo[j]->t = -1; j++;}
+
+        for(int i=0; i<N_wi;i++) cerr<<"WARNING: Inlet node = "<<*wi[i]<<endl;
 
 //        upside down
 //        //inlet and outlet pores for square geometry
@@ -514,6 +546,7 @@ void Network:: createRandomTrianglesNetwork(int N_x, int N_y){
         //cutting vertical boundary conditions
         for (int i=0;i<NP;i++) if( abs(p[i]->n[0]->xy.y-p[i]->n[1]->xy.y)>N_y/2)          p[i]->d = 0;
         for (int i=0;i<NP;i++) if( abs(p[i]->n[0]->t) == 1 &&  abs(p[i]->n[1]->t) == 1)   p[i]->d = 0;
+		for (int i=0;i<NP;i++) if( p[i]->n[0]->xy.y==p[i]->n[1]->xy.y )                   p[i]->d = 0;
 
     }
 	//check_network_connections();
