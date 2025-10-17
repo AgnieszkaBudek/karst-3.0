@@ -1,11 +1,11 @@
 UNAME := $(shell uname)
 
 ifeq ($(UNAME), Linux)
-	CC		= clang        
+	CC	= clang        
 	CXX 	= clang++                                            
-	FL		= gfortran 
-	MDIR	=  ~/.nix-profile/opt/mumps
-	FLIBS	= -L ~/.nix-profile/lib -lgfortran -lquadmath -lblas
+	FL	= gfortran 
+	MDIR	= $(MUMPS_DIR)
+	FLIBS   = -lgfortran -lquadmath -lblas
 else 
 	CC      = /opt/homebrew/bin/gcc-15
 	CXX 	= /opt/homebrew/bin/g++-15
@@ -18,7 +18,7 @@ endif
 MLIBS	= -ldmumps -lmpiseq -lpthread -lpord  -lstdc++ $(FLIBS)
 ALGDIR  = ../algorithms
 
-COPTS	= -Wall -pedantic -O2  
+COPTS	= -Wall -pedantic -O2 -fno-pie -no-pie
 CINCLUDES	= -I ../include -I ../algorithms 
 MINCLUDES	= -I ../include -I $(MDIR)/include -I $(MDIR)/libseq
 

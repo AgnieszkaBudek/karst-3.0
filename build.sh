@@ -10,7 +10,7 @@ system_name=$(uname -s)
 # Check if the system is Linux
 # shellcheck disable=SC2039
 if [ "$system_name" = "Linux" ]; then
-
+	echo "Working on Linux"
     cd algorithms || exit
     make clean
     make
