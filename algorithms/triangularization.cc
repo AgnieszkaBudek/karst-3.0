@@ -77,7 +77,11 @@ void triangulation(int N_x, int N_y, \
             while(!new_point){
                 new_point=true;
                 point_tmp = Vector2<double>{RandomFloat(0, N_x), RandomFloat(0, N_y),i};
-                for (auto p : points)
+
+				if(int(point_tmp.y)==0) 	point_tmp.y = 0.5;
+				if(int(point_tmp.y)==N_y-1) point_tmp.y = N_y-0.5;
+
+				for (auto p : points)
                     if(p.dist(point_tmp)<0.7){
                         new_point=false;
                         break;
@@ -96,8 +100,6 @@ void triangulation(int N_x, int N_y, \
 	}
 
 
-    for(auto &p : points) if(int(p.y)==0) p.y = 0.5;
-    for(auto &p : points) if(int(p.y)==N_y-1) p.y = N_y-0.5;
 
 
     std::vector<Vector2<double> > points_tmp;

@@ -1,8 +1,8 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 #  Size of the netwrok
 
-N_x =  17             # size of the regular network (dla 17 mnożnik: l0->alpfa mm alfa = 1.76316) WAŻne!
-N_y = 19         # size of the regular network
+N_x =  17   #31 #17             # size of the regular network (dla 17 mnożnik: l0->alpfa mm alfa = 1.76316) WAŻne!
+N_y =  19   #33 #19         # size of the regular network
 
 
 # P_out = 0       # pressure at the outlet, always should be set to zero
