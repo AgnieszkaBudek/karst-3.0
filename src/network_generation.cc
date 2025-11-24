@@ -261,8 +261,13 @@ void Network::add_randomness_to_regular_network(double d_sigma, double max_nodes
 			 double X_2 = (double)rand()/RAND_MAX;
 			 double tmp = sqrt(-2*log(X_1))*cos(2*M_PI*X_2);
 			 if(p[i]->d!=0){
-				 if(d_sigma<0) p[i]->d = d0*exp(fabs(d_sigma)*tmp);   //log normal distribution
-				 else          p[i]->d = d_sigma*tmp + d0;            //gaussian distribution
+				 //if(d_sigma<0) p[i]->d = d0*exp(fabs(d_sigma)*tmp);   //log normal distribution
+                 if(d_sigma<0) {//log normal distribution
+                     double sd=sqrt(1+d_sigma*d_sigma/d0/d0);
+                     p[i]->d = d0/sd*exp(sqrt(log(sd*sd))*tmp);
+                 }
+				 else
+                     p[i]->d = d_sigma*tmp + d0;            //gaussian distribution
 			 }
 
 			 if(p[i]->d>=0 && p[i]->d<10*d0) i--;}  //WARNING: The pore diameter can not exceed 10xd0
