@@ -699,6 +699,7 @@ void Network::  save_all_data(bool if_save_now) {
 		if(if_save_txt)       print_net_txt();
 		if(if_save_table)     print_tables_txt();
 		if(if_save_topology) {export_topology_file(); export_topology_file_with_grains();}
+        if(if_run_tracers) {run_tracers();}
 		pages_saved++;
 	}
 

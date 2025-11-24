@@ -138,6 +138,7 @@ Network::Network (string input_file_name) {
 	if_save_topology      = true; 	  //if true topology is saved in each save_all
 	if_verbose            = false;    //if true verbose version for debugging
 	if_debugging_printing = false;	  //if true debugging printing is done after each calculation
+    if_run_tracers        = true;
 
 	//addition inlet cut
 	inlet_cut_factor = 1;      //factor of an inlet cut (in a cut: d = d*factor)
@@ -174,6 +175,7 @@ Network::Network (string input_file_name) {
 	fork_distribution2_out  .open("fork_distribution_preci.out"  ,ios_base::out | ios_base::trunc );
 	cluster_size2_out       .open("cluster_size_preci.out"       ,ios_base::out | ios_base::trunc );
 
+    if(if_run_tracers) tracers_out.open("tracers.out", ios_base::out | ios_base::trunc );
 
 	if (if_save_table){
 		diameters_out     .open("d.out",	      ios_base::out | ios_base::trunc );
@@ -353,6 +355,8 @@ Network:: ~Network (){
         max_out            .close();
         d_nbr_direction_out.close();
 	}
+
+    if(if_run_tracers) tracers_out.close();
 
 }
 

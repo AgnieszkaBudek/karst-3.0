@@ -2,6 +2,54 @@
 #include "printing.h"
 
 
+
+
+void Network::run_tracers(){
+
+    cerr<<"Running tracers..."<<endl;
+
+	int N = 100; //number of tracers per inlet node
+	int M = 4;   // how many times check the tracer position
+
+	tracers_out   << "#\tTime step = "  <<tot_steps<<"#\tTime = "  <<tot_time<<endl;
+
+
+	for(int i=0; i<N_wi; i++)
+		for(int j=0; j<N; j++) {
+
+			double t = 0;
+			int M_tmp=1;
+			double eps = 10e-10;
+			Node * n = wi[i];
+			double Q_tot=0.;
+			for(int k=0; k<n->b; k++) if(n->u >= n->n[k]->u) Q_tot += fabs(n->p[k]->q);
+			tracers_out<<setw(10)<<n->xy.x<<"\t"<<setw(10)<<Q_tot<<"\t";
+			while (n->t != -1) {
+				Q_tot=0.; double q_tmp=0.;
+				for(int k=0; k<n->b; k++) if(n->u >= n->n[k]->u) Q_tot += fabs(n->p[k]->q);
+				double tmp = rand() / (RAND_MAX + 1.0);
+				for(int k=0; k<n->b; k++) if(n->u >= n->n[k]->u) {
+					q_tmp += fabs(n->p[k]->q);
+					if (tmp <= q_tmp/Q_tot+eps) {
+						t += p[k]->l/(fabs(n->p[k]->q) / (pow(n->p[k]->d, 2)*M_PI/4));
+						//t += (n->n[k]->xy-n->xy)/(fabs(n->p[k]->q) / (pow(n->p[k]->d, 2)*M_PI/4));
+						n = n->n[k];
+						break;
+					}
+				}
+				if(n->xy.y>N_y/M*M_tmp and M_tmp<M){
+					tracers_out<<setw(10)<<t<<"\t";
+					M_tmp++;
+				}
+			}
+			tracers_out<<setw(10)<<t<<"\t";
+			tracers_out<<setw(10)<<n->xy.x<<endl;
+		}
+
+
+}
+
+
 //functions related to evolution
 
 /**

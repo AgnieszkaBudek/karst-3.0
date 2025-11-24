@@ -412,6 +412,11 @@ void::Network::read_setup_file(ifstream& fp_setup){
 			else                     cerr<<"WARNING: Wrong value of variable if_save_table. Set true or false."<<endl;
 			cerr<< "Setting if_save_table = "<<if_save_table<<endl;}
 
+        else if(name == "if_run_tracers"){
+            if      (value == "true" )   if_run_tracers  = true;
+            else if (value == "false")   if_run_tracers = false;
+            else                     cerr<<"WARNING: Wrong value of variable if_run_tracers. Set true or false."<<endl;
+            cerr<< "Setting if_run_tracers = "<<if_run_tracers<<endl;}
 
 		else if(name == "if_verbose"){
 			if      (value == "true" )   if_verbose  = true;

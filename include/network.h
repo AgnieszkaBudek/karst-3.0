@@ -57,6 +57,7 @@ class Network
 		Node** wi;			///< inlet list
 		Node** wo;			///< outlet list
 
+
 		int NN;				///< number of nodes
 		int NP;				///< number of pores
 		int NG;				///< number of grains
@@ -145,7 +146,7 @@ class Network
 		ofstream_txt    pores_out, nodes_out, grains_out, net_out, net_g_out, tmp_out, d_nbr_out, d_nbr_direction_out, l_nbr_out;
 		ofstream_txt    time_evolution_out, pattern_analysis_out, child_distribution_out, fork_distribution_out, cluster_size_out, child_distribution2_out, fork_distribution2_out, cluster_size2_out;
 		ofstream_txt    diameters_out, flow_out, f_nodes_out, f_pores_out, pressure_out, concentration_out, concentration2_out, VA_out, VE_out, VX_out, lengths_out;
-	   	ofstream_txt    angle_out, fff_out, max_out;
+	   	ofstream_txt    angle_out, fff_out, max_out, tracers_out;
         ifstream 	    conf_in, net_in, net_g_in, pores_in, grains_in;
 	
 
@@ -191,6 +192,7 @@ class Network
 		bool if_save_topology; 					  ///< if true topology is saved in each save_all
 		bool if_verbose;                          ///< if true verbose version for debugging
 		bool if_debugging_printing;				  ///< if true debugging printing is done after each calculation
+		bool if_run_tracers;
 
 		// printing parameters
 		// Point * xy;			///< list of nodes positions, filled when printing_ps is ON
@@ -353,6 +355,7 @@ class Network
         void create_a_fracture(double factor, Node * n_1 = nullptr, Node * n_2 = nullptr );  ///< A single - layer fracture will be created form n_1 to n_2, by default the fracture will start from the center of the system
         void find_R_half(Node*n);
         void find_flow_focusing_profile(double th=0.5);
+		void run_tracers();
 
 //other output generation (for Rishabh)
 		void write_vtk_data();

@@ -55,7 +55,7 @@ kappa=1
 dyn=1
 for d0 in 0.24  # 0.2 0.3
 do
-for inlet_cut_factor in 1 3.5
+for inlet_cut_factor in 1 #3.5
 
   do
   (
@@ -89,7 +89,7 @@ for inlet_cut_factor in 1 3.5
 
                 } >> config.txt
 
-                ~/Desktop/KARST/karst_3.0/build/karst config.txt   >wyjscie.out 2>bledy.out &
+                ~/Desktop/KARST/karst_3.0/build/karst config.txt  # >wyjscie.out 2>bledy.out &
 
              )
 done
