@@ -37,10 +37,10 @@ cut=true
 Da=0.1
 d0=0.1
 los=13
-kappa=0.5
+kappa=2
 for Da in 0.1 #20  50  100  200 # `seq 1 1 20`
 do
-  for gamma in  1 #0.25 0.3 0.8 0.75 1.25   #0.01 0.1 0.2 0.5 1 2 5 10 100
+  for gamma in  2 #0.25 0.3 0.8 0.75 1.25   #0.01 0.1 0.2 0.5 1 2 5 10 100
   do
   (
                 param=Da-$Da-d0-$d0-gamma-$gamma-kappa-$kappa

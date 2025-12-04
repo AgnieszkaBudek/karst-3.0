@@ -84,7 +84,7 @@ if_periodic_bc                     = true           # if true (default) horizont
 if_clear_unused_pores              = true           # if true unused pores and nodes and grains are deleted (mess with printing tables)
 random_seed                        = 12             # if -1 then srand(time(NULL)) else srand(time(random_seed))
 if_randomness_in_regular_net       = true	        # if true randomness is added to hexagonal or cubic network (working for hexagonal net)
-gauss_sigma_d                      = -0.1  		    # if randomness is on this gives information about width of the initial diameter distribution
+gauss_sigma_d                      = 0  		    # if randomness is on this gives information about width of the initial diameter distribution
 max_rand_shift_xy                  = 0       		# if randomness is on this gives information about max shift in node positions
 
 
