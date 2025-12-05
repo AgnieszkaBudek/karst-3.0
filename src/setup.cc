@@ -137,6 +137,16 @@ void::Network::read_setup_file(ifstream& fp_setup){
 			l0 = stod(value);
 			cerr<< "Setting l0 = "<<l0<<endl;}
 
+		else if(name == "nodes_repulsion"){
+			nodes_repulsion = stod(value);
+			cerr<< "Setting nodes_repulsion = "<<nodes_repulsion<<endl;}
+
+		else if(name == "pressure_drop_with_max_l"){
+			if      (value == "true" )   pressure_drop_with_max_l  = true;
+			else if (value == "false")   pressure_drop_with_max_l  = false;
+			else                     cerr<<"WARNING: Wrong value of variable pressure_drop_with_max_l. Set true or false."<<endl;
+			cerr<< "Setting pressure_drop_with_max_l = "<<pressure_drop_with_max_l<<endl;}
+
 		else if(name == "Da"){
 			Da = stod(value);
 			cerr<< "Setting Da = "<<Da<<endl;}
@@ -241,6 +251,7 @@ void::Network::read_setup_file(ifstream& fp_setup){
 		else if(name == "d_d_dis"){
 			d_d_dis = stod(value);
 			cerr<< "Setting d_d_dis = "<<d_d_dis<<endl;}
+
 
 		else if(name == "set_new_dt"){
 			set_new_dt = stod(value);

@@ -25,24 +25,20 @@ void Network::run_tracers(){
 			for(int k=0; k<n->b; k++) if(n->u >= n->n[k]->u) Q_tot += fabs(n->p[k]->q);
 			tracers_out<<setw(10)<<n->xy.x<<"\t"<<setw(10)<<Q_tot<<"\t";
 			while (n->t != -1) {
+
 				Q_tot=0.; double q_tmp=0.;
-				for(int k=0; k<n->b; k++) if(n->u >= n->n[k]->u) Q_tot += fabs(n->p[k]->q);
+				for(int k=0; k<n->b; k++) if(n->u > n->n[k]->u) Q_tot += fabs(n->p[k]->q);
 				double tmp = rand() / (RAND_MAX + 1.0);
+				if (Q_tot<eps) {tracers_out<<setw(10)<<1./eps<<endl; break;}
 				for(int k=0; k<n->b; k++) if(n->u >= n->n[k]->u) {
 					q_tmp += fabs(n->p[k]->q);
-					if (tmp <= q_tmp/Q_tot+eps or Q_tot < eps) {
-                        if(Q_tot<eps){
-                            t1 +=1./eps;
-                            t2 += 1./eps;
-                        }
-                        else{
-                            t1 += p[k]->l*pow(n->p[k]->d, 2)*M_PI/4/fabs(n->p[k]->q);
-						    t2 += (n->n[k]->xy-n->xy)/(fabs(n->p[k]->q) / (pow(n->p[k]->d, 2)*M_PI/4));
-                        }
+					if ((tmp <= q_tmp/Q_tot+eps and fabs(n->p[k]->q)>0) ) {
+						t1 += p[k]->l*pow(n->p[k]->d, 2)*M_PI/4/fabs(n->p[k]->q);
+						t2 += (n->n[k]->xy-n->xy)/(fabs(n->p[k]->q) / (pow(n->p[k]->d, 2)*M_PI/4));
 						n = n->n[k];
 						break;
 					}
-				}
+                }
 				if(n->xy.y>N_y/M*M_tmp and M_tmp<M){
 					tracers_out<<setw(10)<<t1<<"\t"<<setw(10)<<t2<<"\t";
 					M_tmp++;

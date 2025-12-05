@@ -3,7 +3,7 @@
 #include <iterator>
 #include <algorithm>
 #include <array>
-
+#include <deque>
 
 
 //#define VISUALIZATION //only for debugging
@@ -44,7 +44,7 @@ void triangulation(int N_x, int N_y, \
 		std::vector<Vector2 <double> >  &points_tmp_out, \
 	    std::vector<Edge    <double> >  &edges_out, \
 		std::vector<Triangle<double> >  &triangles_out, \
-		bool if_regular_points, bool if_periodic_bc, double random_seed){
+		double nodes_repulsion, bool if_periodic_bc, double random_seed){
 
 
 	double eps =1.;  //parameter for regular network threshold
@@ -61,17 +61,44 @@ void triangulation(int N_x, int N_y, \
 	else                 srand (random_seed);
 	cerr<<"Random seed: "<<random_seed<<endl;
 
-	if (if_regular_points){
+	if (nodes_repulsion<0){
 
 		cerr << "Generating " << NN<< " regular points." << endl;
 		for(int j=0; j<N_y;j++) for(int i=0; i<N_x; i++)  {
 			points.push_back(Vector2<double>(i + RandomFloat(-eps, eps)+0.5*(j%2), j + RandomFloat(-eps, eps),i+j*N_x));
+
 		}
+		int i=0;
+		for(auto &p : points) p.a = i++;
+	}
+	else if(nodes_repulsion==0){
+		cerr << "Generating " << NN<< " random points with NO \"repulsion\"." << endl;
+		for(int i=0; i<NN; i++)
+			points.push_back(Vector2<double>{RandomFloat(0, N_x), RandomFloat(0, N_y),i});
+		cerr<<"Sorting points (for more readable printing)..."<<endl;
+		std::stable_sort (points.begin(), points.end(), f_weights);
+		int i=0;
+		for(auto &p : points) p.a = i++;
 	}
 	else{
-		cerr << "Generating " << NN<< " random points." << endl;
-		for(int i=0; i<NN;i++) {
-			points.push_back(Vector2<double>(RandomFloat(0, N_x), RandomFloat(0, N_y),i));
+		cerr << "Generating " << NN<< " random points with \"repulsion\"." << endl;
+		for(int i=0; i<NN; i++) {
+
+            bool new_point=false;
+            Vector2<double> point_tmp;
+            while(!new_point){
+                new_point=true;
+                point_tmp = Vector2<double>{RandomFloat(0, N_x), RandomFloat(0, N_y),i};
+				if(int(point_tmp.y)==0) 	point_tmp.y = 0.5;
+				if(int(point_tmp.y)==N_y-1) point_tmp.y = N_y-0.5;
+
+				for (auto p : points)
+                    if(p.dist(point_tmp)<nodes_repulsion){
+                        new_point=false;
+                        break;
+                    }
+            }
+            points.push_back(point_tmp);
 		}
 		cerr<<"Sorting points (for more readable printing)..."<<endl;
 		std::stable_sort (points.begin(), points.end(), f_weights);

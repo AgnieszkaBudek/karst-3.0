@@ -319,7 +319,7 @@ void Network:: createRandomTrianglesNetwork(int N_x, int N_y){
 	std::vector<Edge    <double> >  edges;				//all edges
 
 
-	triangulation(N_x, N_y, points, points_tmp, edges, triangles, if_regular_points, if_periodic_bc,random_seed);
+	triangulation(N_x, N_y, points, points_tmp, edges, triangles, nodes_repulsion, if_periodic_bc,random_seed);
 	cerr<<"Tiangulation for all points done."<<endl;
 
 

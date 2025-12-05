@@ -60,7 +60,7 @@ void test_triangulation(){
 	std::vector<Triangle<double> >  triangles;
 	std::vector<Edge    <double> >  edges;
 
-	triangulation(5, 5, points, points_tmp, edges, triangles, false, true);
+	triangulation(5, 5, points, points_tmp, edges, triangles, 0, true);
 }
 
 /**

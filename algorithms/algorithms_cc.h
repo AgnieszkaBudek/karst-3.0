@@ -22,7 +22,7 @@ void triangulation(int N_x, int N_y, \
 		std::vector<Vector2 <float> >  &points_tmp_out, \
 	    std::vector<Edge    <float> >  &edges_out, \
 		std::vector<Triangle<float> >  &triangles_out, \
-		bool if_regular_points, bool if_periodic_bc, double random_seed );
+		double nodes_repulsion, bool if_periodic_bc, double random_seed );
 
 #endif
 

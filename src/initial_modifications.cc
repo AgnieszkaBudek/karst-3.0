@@ -61,6 +61,7 @@ void Network :: create_a_fracture(double factor, Node *n_1, Node *n_2) {
                 g[i]->is_lhs = true;
         }
     }
+    else {cerr<<"No fracture is made."<<endl;}
 
     if(point_inlet) {
         cerr<<"Setting point inlet..."<<endl;

@@ -111,6 +111,8 @@ Network::Network (string input_file_name) {
 	max_rand_shift_xy                  = 1;       	     //if randomness is on this give information about max shift in positions
     no_max_z                           = false;          //if true the cylinder formulas are always true, the pore always behave as a cylinder not aperture
     sandwich_pores                     = false;          //if true the cylinder formulas are always true, the pore always behave as a cylinder not aperture
+	nodes_repulsion                    = 0;
+	pressure_drop_with_max_l           = false;
 
 
 	//dynamics

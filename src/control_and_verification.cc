@@ -126,7 +126,7 @@ void Network::check_precipitating_balance(){
 	double Va_delta = Va_tot - Va_tot_tmp;
 	VC_in = Va_delta*gamma; //cerr<<"VC_in = "<<VC_in<<endl;
 
-	//calculate total input of precipitatin species
+	//calculate total input of precipitating species
 	for(int i=0;i<N_wi;i++){
 		Node* n_tmp = wi[i];
 		for (int j=0; j<n_tmp->b;j++) if(n_tmp->p[j]->d>0) VC_in+=fabs(n_tmp->p[j]->q)*n_tmp->cc*dt*dt_unit;

@@ -166,6 +166,9 @@ class Network
 	   	double max_rand_shift_xy;       ///< if randomness is on this give information about max shift in positions
         bool no_max_z;                   /// if true there  is no constrain on pores diameters, otherwise d>H_z is not cylinder anymore
         bool sandwich_pores;            /// if true for all pores the sandwich (pure 2D) formula for reactive area and resistance are calculated.
+		double nodes_repulsion;			/// if != 0 nodes are "repelled from each other and can not be closer to each other tan nodes_repulsion l0
+		bool pressure_drop_with_max_l;  ///if true the length in the permeability function is taking into account distance between nodes
+
 
 		// dynamics
 		bool if_leapfrog;               ///< if true frog leap instead of Euler algorithm is used in evolution (not implemented yet)

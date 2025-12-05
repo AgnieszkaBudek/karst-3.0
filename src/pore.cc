@@ -17,12 +17,16 @@ Pore::Pore (double dd, double ll, float name, int bb){
 double Pore::perm(Network*S) const{
     bool pipe_formula = (!(S->sandwich_pores and is_fracture) and (d<S->H_z or S->no_max_z));
 
+    double l_tmp = l;
+    if(S->pressure_drop_with_max_l)
+        l_tmp = n[0]->xy-n[1]->xy;
+
     if(!pipe_formula and d<S->H_z)
-        return M_PI*pow(d,3)/(128*S->mu_0*l);   ///< permeability of a thin fracture
+        return M_PI*pow(d,3)/(128*S->mu_0*l_tmp);   ///< permeability of a thin fracture
     if(pipe_formula)
-        return M_PI*pow(d,4)/(128*S->mu_0*l);   ///< permeability of a particular pore
+        return M_PI*pow(d,4)/(128*S->mu_0*l_tmp);   ///< permeability of a particular pore
     else
-        return M_PI*d/(128*S->mu_0*l);          ///WARNING: the tube can not have the diameter larger than H_z, later the formula for H_z = l_Z = 1
+        return M_PI*d/(128*S->mu_0*l_tmp);          ///WARNING: the tube can not have the diameter larger than H_z, later the formula for H_z = l_Z = 1
 }
 
 

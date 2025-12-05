@@ -187,6 +187,6 @@ void triangulation(int N_x, int N_y, \
 		std::vector<Vector2 <double> >  &points_tmp_out, \
 	    std::vector<Edge    <double> >  &edges_out, \
 		std::vector<Triangle<double> >  &triangles_out, \
-		bool if_regular_points, bool if_periodic_bc, double random_seed=-1);
+		double triangulation, bool if_periodic_bc, double random_seed=-1);
 
 #endif
