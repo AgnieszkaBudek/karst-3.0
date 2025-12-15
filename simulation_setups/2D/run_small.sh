@@ -36,11 +36,11 @@ cut=true
 
 Da=0.1
 d0=0.24
-los=13
+los=667
 kappa=1
 for Da in 0.1 #20  50  100  200 # `seq 1 1 20`
 do
-  for gamma in  0 #0.25 0.3 0.8 0.75 1.25   #0.01 0.1 0.2 0.5 1 2 5 10 100
+  for gamma in  0.3 #0.25 0.3 0.8 0.75 1.25   #0.01 0.1 0.2 0.5 1 2 5 10 100
   do
   (
                 param=Da-$Da-d0-$d0-gamma-$gamma-kappa-$kappa
@@ -57,8 +57,8 @@ do
                   echo d_min = $dmin
                   echo if_cut_d_min = $cut
                   echo random_seed = $los
-                  echo Cb_0 = 1
-                  echo Cc_0 = 0
+                  echo Cb_0 = 0
+                  echo Cc_0 = 1
                   echo nodes_repulsion = 0.7
                   echo pressure_drop_with_max_l = true
 

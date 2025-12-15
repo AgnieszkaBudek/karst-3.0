@@ -669,18 +669,25 @@ void Network::  save_all_data(bool if_save_now) {
 
 
 
-    static double Va_old = 0;
+    static double V_old = 0 ,T_old=0;
 
     //deciding either to save or not
-    if (s_save_data < 0 and !if_save_now)
-        if_save_now = check_diss_front(print_diss_factor, pages_saved * fabs(s_save_data));
+    if (s_save_data < 0 ){	//check volume condition
+//		if_save_now = check_diss_front(print_diss_factor, pages_saved * fabs(s_save_data));
+		if(tot_steps==0) V_old = Va_tot+Ve_tot;
+		if(fabs((V_old-Va_tot-Ve_tot))/(Va_tot+Ve_tot)>fabs(s_save_data)){
+			if_save_now = true;
+			V_old = Va_tot+Ve_tot;
+		}
+	}
+
     else if (s_save_data >= 1 && tot_steps % int(s_save_data) == 0) if_save_now = true;
     else if (s_save_data > 0 && s_save_data < 1) {
-//check the volume condition!!!
-        if (tot_steps == 0) Va_old = 0;
-        if (fabs(Va_old - tot_time * dt_unit) / (T_max * dt_unit) > s_save_data) {
+//check the time condition!!!
+        if (tot_steps == 0) T_old = 0;
+        if (fabs(T_old - tot_time * dt_unit) / (T_max * dt_unit) > s_save_data) {
             if_save_now = true;
-            Va_old = tot_time * dt_unit;
+			T_old = tot_time * dt_unit;
         }
     }
 

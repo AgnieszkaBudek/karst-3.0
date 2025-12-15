@@ -33,8 +33,8 @@ void Network::run_tracers(){
 				for(int k=0; k<n->b; k++) if(n->u >= n->n[k]->u) {
 					q_tmp += fabs(n->p[k]->q);
 					if ((tmp <= q_tmp/Q_tot+eps and fabs(n->p[k]->q)>0) ) {
-						t1 += p[k]->l*pow(n->p[k]->d, 2)*M_PI/4/fabs(n->p[k]->q);
-						t2 += (n->n[k]->xy-n->xy)/(fabs(n->p[k]->q) / (pow(n->p[k]->d, 2)*M_PI/4));
+						t1 += p[k]->l			  * pow(n->p[k]->d, 2)*M_PI/4/fabs(n->p[k]->q);
+						t2 += (n->n[k]->xy-n->xy) * pow(n->p[k]->d, 2)*M_PI/4/fabs(n->p[k]->q);
 						n = n->n[k];
 						break;
 					}
@@ -222,7 +222,7 @@ void Network::write_time_step_properties(){
                 "percolation"   <<setw(15)<<\
                 "sim_state"     <<setw(15)<<\
 				"d_in_max"      <<setw(15)<<\
-				"d_out_max"     <<setw(15)<<endl;
+				"s_tot"         <<setw(15)<<endl;
 		time_evolution_out<<"#  ----------------------------------------------------------------------------------------------------------------"<<endl;
 	}
 
@@ -239,6 +239,13 @@ void Network::write_time_step_properties(){
                 d_out_max=wo[i]->p[s]->d;
 
 
+	double s_tot=0;
+	for (int i=0; i<NP; i++) {
+		if (p[i]->is_fracture or p[i]->d > H_z)
+			s_tot += 2 * p[i]->l * H_z;
+		else
+			s_tot += M_PI*p[i]->l * p[i]->d;
+	}
     double percolation = find_percolation();
 
 
@@ -256,6 +263,6 @@ void Network::write_time_step_properties(){
             percolation<<setw(15)<<\
             sim_state  <<setw(15)<<\
 			d_in_max   <<setw(15)<<\
-			d_out_max  <<endl<<flush;
+			s_tot  <<endl<<flush;
 }
 
