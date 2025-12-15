@@ -48,6 +48,11 @@ void::Network::read_setup_file(ifstream& fp_setup){
 			cerr<< "Additionally setting P_in = "<<P_in<<endl;
 		}
 
+		else if(name == "N_tracers"){
+			N_tracers = stod(value);
+			cerr<< "Setting N_tracers = " <<N_tracers <<endl;
+		}
+
         else if(name == "H_z"){
             H_z = stod(value);
             cerr<< "Setting H_z = " <<H_z <<endl;

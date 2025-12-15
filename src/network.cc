@@ -112,7 +112,7 @@ Network::Network (string input_file_name) {
     no_max_z                           = false;          //if true the cylinder formulas are always true, the pore always behave as a cylinder not aperture
     sandwich_pores                     = false;          //if true the cylinder formulas are always true, the pore always behave as a cylinder not aperture
 	nodes_repulsion                    = 0;
-	pressure_drop_with_max_l           = false;
+	pressure_drop_with_max_l           = true;
 
 
 	//dynamics
@@ -141,7 +141,7 @@ Network::Network (string input_file_name) {
 	if_verbose            = false;    //if true verbose version for debugging
 	if_debugging_printing = false;	  //if true debugging printing is done after each calculation
     if_run_tracers        = true;
-
+    N_tracers = 100; 					//number of tracers per inlet node
 	//addition inlet cut
 	inlet_cut_factor = 1;      //factor of an inlet cut (in a cut: d = d*factor)
     if_tilted_cut = 0;

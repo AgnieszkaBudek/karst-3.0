@@ -196,6 +196,7 @@ class Network
 		bool if_verbose;                          ///< if true verbose version for debugging
 		bool if_debugging_printing;				  ///< if true debugging printing is done after each calculation
 		bool if_run_tracers;
+		int N_tracers;
 
 		// printing parameters
 		// Point * xy;			///< list of nodes positions, filled when printing_ps is ON

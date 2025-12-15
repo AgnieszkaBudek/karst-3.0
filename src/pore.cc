@@ -166,7 +166,7 @@ double Pore::local_G_2(Network* S){
     //double d_tmp = min(1,d);   //possible feature for a fracture
 
 	if     (S->G2==0)	return	0;						         // reaction limited case, G = 0
-	else if(S->G2>0 )	return  S->G2*d/S->d0;	             // mixed case: k1 ~ DD1
+	else if(S->G2>0 )	return  S->G2*S->kappa*d/S->d0;	         // mixed case: k1 ~ DD1 //15.12.2025 : Important change for G2 tracking.
 	else			    return  -1;							     // diffusion limited case, convention: G<0 => G = Inf
 
 }
@@ -308,7 +308,7 @@ double Pore::default_dd_minus(Network*S){
 
 	//dissolution parameters
 	double f1      = local_Da_eff(S);
-	double g       = local_G(S);
+	double g       = local_G(S);            //only for time scaling
 	double c0;
 	if(S->if_streamtube_mixing) c0 = c_in;
 	else                        c0 = calculate_inlet_cb();

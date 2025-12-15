@@ -8,14 +8,14 @@ void Network::run_tracers(){
 
     cerr<<"Running tracers..."<<endl;
 
-	int N = 100; //number of tracers per inlet node
+
 	int M = 4;   // how many times check the tracer position
 
 	tracers_out   << "#\tTime step = "  <<tot_steps<<"#\tTime = "  <<tot_time<<endl;
 
 
 	for(int i=0; i<N_wi; i++)
-		for(int j=0; j<N; j++) {
+		for(int j=0; j<N_tracers; j++) {
 
 			double t1 = 0, t2=0;            //t1: we neglect time spent in pore bodies; t2: we assume pore length is the maximal pore length (distance between two nodes)
 			int M_tmp=1;
