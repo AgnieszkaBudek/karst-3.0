@@ -17,7 +17,8 @@ void Network::run_tracers(){
 	for(int i=0; i<N_wi; i++)
 		for(int j=0; j<N_tracers; j++) {
 
-			double t1 = 0, t2=0;            //t1: we neglect time spent in pore bodies; t2: we assume pore length is the maximal pore length (distance between two nodes)
+			//double t1 = 0;          //t1: we neglect time spent in pore bodies;
+			double t2 = 0;            //t2: we assume pore length is the maximal pore length (distance between two nodes)
 			int M_tmp=1;
 			double eps = 10e-10;
 			Node * n = wi[i];
@@ -33,18 +34,20 @@ void Network::run_tracers(){
 				for(int k=0; k<n->b; k++) if(n->u >= n->n[k]->u) {
 					q_tmp += fabs(n->p[k]->q);
 					if ((tmp <= q_tmp/Q_tot+eps and fabs(n->p[k]->q)>0) ) {
-						t1 += p[k]->l			  * pow(n->p[k]->d, 2)*M_PI/4/fabs(n->p[k]->q);
+						//t1 += p[k]->l			  * pow(n->p[k]->d, 2)*M_PI/4/fabs(n->p[k]->q);
 						t2 += (n->n[k]->xy-n->xy) * pow(n->p[k]->d, 2)*M_PI/4/fabs(n->p[k]->q);
 						n = n->n[k];
 						break;
 					}
                 }
 				if(n->xy.y>N_y/M*M_tmp and M_tmp<M){
-					tracers_out<<setw(10)<<t1<<"\t"<<setw(10)<<t2<<"\t";
+					//tracers_out<<setw(10)<<t1<<"\t"<<setw(10)<<t2<<"\t";
+					tracers_out<<setw(10)<<t2<<"\t";
 					M_tmp++;
 				}
 			}
-			tracers_out<<setw(10)<<t1<<"\t"<<setw(10)<<t2<<"\t";
+			//tracers_out<<setw(10)<<t1<<"\t"<<setw(10)<<t2<<"\t";
+			tracers_out<<setw(10)<<t2<<"\t";
 			tracers_out<<setw(10)<<n->xy.x<<endl;
 		}
 
