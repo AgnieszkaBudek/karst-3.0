@@ -253,7 +253,7 @@ void Network::      createHexagonalNetwork(int N, int M){
 void Network::add_randomness_to_regular_network(double d_sigma, double max_nodes_shift){
 
 	cerr<<"Adding randomness to hexagonal network..."<<endl;
-
+	double d_max = 1;
 	if(fabs(d_sigma)>0){  //calculating new, random diameters
 		int i=NP-1;
 		while(i>=0){
@@ -264,10 +264,18 @@ void Network::add_randomness_to_regular_network(double d_sigma, double max_nodes
 				 //if(d_sigma<0) p[i]->d = d0*exp(fabs(d_sigma)*tmp);   //log normal distribution
                  if(d_sigma<0) {//log normal distribution
                      double sd=sqrt(1+d_sigma*d_sigma/d0/d0);
-                     p[i]->d = d0/sd*exp(sqrt(log(sd*sd))*tmp);
-                 }
-				 else
-                     p[i]->d = d_sigma*tmp + d0;            //gaussian distribution
+                     double d_tmp = d0/sd*exp(sqrt(log(sd*sd))*tmp);
+					 if(d_tmp>d_max) d_tmp = d_max;
+					 if(d_tmp<d_min) d_tmp = d_min;
+                     p[i]->d = d_tmp;
+				 }
+				 else {		 //gaussian distribution
+					 double d_tmp =  d_sigma*tmp + d0;
+					 if(d_tmp>d_max) d_tmp = d_max;
+					 if(d_tmp<d_min) d_tmp = d_min;
+					 p[i]->d = d_tmp;
+				 }
+
 			 }
 
 			 if(p[i]->d>=0 && p[i]->d<10*d0) i--;}  //WARNING: The pore diameter can not exceed 10xd0
