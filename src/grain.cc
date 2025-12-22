@@ -182,17 +182,22 @@ void Grain::calculate_initial_volume (Network *S){
 		double z = S->node_distance(n[2], n[0]);
 		double P = (x+y+z)/2;
 
-		Va = sqrt(P*(P-x)*(P-y)*(P-z))*S->H_z;
+		V0 = sqrt(P*(P-x)*(P-y)*(P-z))*S->H_z;
 
 		x = S->node_distance(n[0], n[3]);
 		y = S->node_distance(n[3], n[2]);
 		z = S->node_distance(n[2], n[0]);
 		P = (x+y+z)/2;
 
-		Va += sqrt(P*(P-x)*(P-y)*(P-z))*S->H_z;
-        V0=Va;
+		V0 += sqrt(P*(P-x)*(P-y)*(P-z))*S->H_z;
 
-		for (int i=0;i<bP;i++) Va -= (M_PI*p[i]->d*p[i]->d*p[i]->l/4)/2;
+		double d_mean = 0;
+		for (int i=0;i<bP;i++){
+			if (!(p[i]->is_fracture))   d_mean += p[i]->d / bP;
+			else  						d_mean += S->d0 / bP;
+			}
+
+		Va = (pow(6. - (pow(d_mean,2)*M_PI)/V0,1.5)*V0)/(6.*sqrt(6));
 	}
 
 
