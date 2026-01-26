@@ -319,7 +319,7 @@ void Print_network_in_dissolution_style (ofstream_ps & stream, Network &S){
         if(p.is_fracture) d_rel= S.d0*S.inlet_cut_factor;
 
 		double r=0.5, g=0.5, b=0.5;
-		if (p.d<d_rel and p.d!=0){
+		if (p.d<d_rel*0.999 and p.d!=0){
 			r = 1;
 			g = 1;  //((p.d) - (S.d_min))/((S.d0) - (S.d_min));
 			b = 0;
@@ -340,8 +340,6 @@ void Print_network_in_dissolution_style (ofstream_ps & stream, Network &S){
         //if(p.d==0) kkk=Kolor(0,0,1);
 		//if(p.x==1) kkk=Kolor(0.0,0.0,0.0);
 
-
-
 		p.tmp=666;  // no printing names
 		if(p.is_fracture || (p.n[0]->xy - p.n[1]->xy < S.N_x*2./3  && p.d<S.N_x*2 && p.n[0]->xy.z == z_to_print && p.n[1]->xy.z == z_to_print)){
 			//if (p.x == 1)           stream<<Porek(p.n[0]->xy,p.n[1]->xy,p.d ,p.tmp,kkk);
@@ -359,8 +357,8 @@ void Print_network_in_dissolution_style (ofstream_ps & stream, Network &S){
            // cerr<<"After printing pore "<< *S.p[i];
 	}
 
-	else if( S.print_diss_factor)  for(int i=0;i<S.NP;i++) if(S.p[i]->x==1) {S.p[i]->tmp=666; stream<<*S.p[i];}
-	else if(!S.print_diss_factor)  for(int i=0;i<S.NP;i++)                  {S.p[i]->tmp=666; stream<<*S.p[i];}
+		else if( S.print_diss_factor)  for(int i=0;i<S.NP;i++) if(S.p[i]->x==1) {S.p[i]->tmp=666; stream<<*S.p[i];}
+		else if(!S.print_diss_factor)  for(int i=0;i<S.NP;i++)                  {S.p[i]->tmp=666; stream<<*S.p[i];}
 
 	stream << "showpage "<<endl<<flush;
 

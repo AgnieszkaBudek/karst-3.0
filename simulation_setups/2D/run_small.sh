@@ -37,10 +37,10 @@ cut=true
 Da=0.1
 d0=0.24
 los=123
-kappa=1
-for Da in 0.1  0.5
+kappa=0.0001
+for Da in 0.1  #0.5
 do
-  for gamma in  1
+  for gamma in  0
   do
   (
                 param=Da-$Da-d0-$d0-gamma-$gamma-kappa-$kappa
@@ -54,7 +54,7 @@ do
                   echo kappa = $kappa
                   echo Da    = $Da
                   echo d0    = $d0
-                  echo gauss_sigma_d = -0.3
+                  echo gauss_sigma_d = 0 #.001
                   echo random_seed = $los
                   echo Cb_0 = 1
                   echo Cc_0 = 0

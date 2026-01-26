@@ -177,7 +177,12 @@ Network::Network (string input_file_name) {
 	fork_distribution2_out  .open("fork_distribution_preci.out"  ,ios_base::out | ios_base::trunc );
 	cluster_size2_out       .open("cluster_size_preci.out"       ,ios_base::out | ios_base::trunc );
 
-    if(if_run_tracers) tracers_out.open("tracers.out", ios_base::out | ios_base::trunc );
+    if(if_run_tracers) {
+
+		tracers_out.open("tracers.out", ios_base::out | ios_base::trunc);
+		min_time_of_arrival_out.open("min_time_of_arrival.out", ios_base::out | ios_base::trunc);
+		max_time_of_arrival_out.open("max_time_of_arrival.out", ios_base::out | ios_base::trunc);
+	}
 
 	if (if_save_table){
 		diameters_out     .open("d.out",	      ios_base::out | ios_base::trunc );
@@ -358,7 +363,11 @@ Network:: ~Network (){
         d_nbr_direction_out.close();
 	}
 
-    if(if_run_tracers) tracers_out.close();
+    if(if_run_tracers) {
+		tracers_out.close();
+		min_time_of_arrival_out.close();
+		max_time_of_arrival_out.close();
+	}
 
 }
 

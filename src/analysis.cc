@@ -1,6 +1,55 @@
 #include "network.h"
 #include "printing.h"
 
+void Network::search_Min_Max_tracer_time(){
+
+
+	cerr<<"search for Min and Max tracer time to get to nodes."<<endl;
+	list<Node *> to_be_checked;
+
+
+	map<Node*, pair<double,double>>  min_max_time;			//for each node we store information about time of arrival of first and last tracer
+	//for(int i=0;i<NN;i++) {n[i]->min_time_of_arrival = 1e10; n[i]->max_time_of_arrival=0.;}
+
+	for (int i=0; i<NN;   i++)   n[i]->tmp=0;   //tmp == 0 - not done; tmp==1 a candidate; tmp=2 done
+	for (int i=0; i<N_wi; i++)  //setting times for inlets
+	{
+		wi[i]->min_time_of_arrival = 0;
+		wi[i]->max_time_of_arrival = 0;
+		wi[i]->tmp = 2;
+		for (int b=0;  b<wi[i]->b; b++)
+			if(wi[i]->n[b]->tmp==0){
+				wi[i]->n[b]->tmp = 1;
+				to_be_checked.push_back(wi[i]->n[b]);
+			}
+	}
+
+	while ( !to_be_checked.empty()){
+		bool new_action = false;
+		for (auto it = to_be_checked.begin(); it != to_be_checked.end(); ) {
+
+			if ((*it)->can_be_calculated()) {
+				new_action = true;
+				(*it)->set_time_arrival_times(this);
+				(*it)->tmp = 2;
+				for (int b = 0; b<(*it)->b; b++)
+					if ((*it)->n[b]->tmp == 0 and (*it)->p[b]->q!=0) {
+						(*it)->n[b]->tmp = 1;
+						to_be_checked.push_back((*it)->n[b]);
+					}
+				it = to_be_checked.erase(it);
+			}
+			else  ++it;
+		}
+		if(!new_action){
+			Node::epsilon_for_c=Node::epsilon_for_c*2;
+			cerr<<"Node::epsilon_for_c has been updated: "<<Node::epsilon_for_c<<endl;
+		}
+		//print_network_for_debugging("In new concentration: ","nic","nic","nic");
+	}
+
+
+}
 
 
 
@@ -12,6 +61,7 @@ void Network::run_tracers(){
 	int M = 4;   // how many times check the tracer position
 
 	tracers_out   << "#\tTime step = "  <<tot_steps<<"#\tTime = "  <<tot_time<<endl;
+
 
 
 	for(int i=0; i<N_wi; i++)

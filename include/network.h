@@ -33,6 +33,7 @@
 #include <math.h>
 #include <map>
 #include <list>
+#include <utility>
 
 #include "pore.h"
 #include "grain.h"
@@ -146,7 +147,7 @@ class Network
 		ofstream_txt    pores_out, nodes_out, grains_out, net_out, net_g_out, tmp_out, d_nbr_out, d_nbr_direction_out, l_nbr_out;
 		ofstream_txt    time_evolution_out, pattern_analysis_out, child_distribution_out, fork_distribution_out, cluster_size_out, child_distribution2_out, fork_distribution2_out, cluster_size2_out;
 		ofstream_txt    diameters_out, flow_out, f_nodes_out, f_pores_out, pressure_out, concentration_out, concentration2_out, VA_out, VE_out, VX_out, lengths_out;
-	   	ofstream_txt    angle_out, fff_out, max_out, tracers_out;
+	   	ofstream_txt    angle_out, fff_out, max_out, tracers_out, min_time_of_arrival_out, max_time_of_arrival_out;
         ifstream 	    conf_in, net_in, net_g_in, pores_in, grains_in;
 	
 
@@ -360,6 +361,7 @@ class Network
         void find_R_half(Node*n);
         void find_flow_focusing_profile(double th=0.5);
 		void run_tracers();
+	    void search_Min_Max_tracer_time();
 
 //other output generation (for Rishabh)
 		void write_vtk_data();

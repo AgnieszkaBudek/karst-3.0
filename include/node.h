@@ -62,6 +62,9 @@ class Node{
 
         inline static double epsilon_for_c  =  1.e-20;
 
+		double min_time_of_arrival;
+		double max_time_of_arrival;
+
 	public:
 
 		Node  (int bb, float tt = 0);
@@ -97,8 +100,9 @@ class Node{
 
         //new idea of cc calculations:
 
-    bool can_be_calculated();
-    void set_new_concentration(Network *N, SPECIES_NAME);
+    bool can_be_calculated      ();
+    void set_new_concentration  (Network *N, SPECIES_NAME);
+	void set_time_arrival_times (Network *N);
 
 };
 

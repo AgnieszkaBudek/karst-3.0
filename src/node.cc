@@ -378,4 +378,19 @@ void Node::set_new_concentration(Network *N, SPECIES_NAME species){
 
 }
 
+void Node::set_time_arrival_times(Network *N){
 
+	double t_min=10e10;
+	double t_max=0;
+
+	for (int k=0; k<b; k++)
+		if(p[k]->d>0 and fabs(p[k]->q)>epsilon_for_c and n[k]->u > u){
+			double t_tmp =  (n[k]->xy-xy) * pow(p[k]->d, 2)*M_PI/4/fabs(p[k]->q);
+			if (n[k]->min_time_of_arrival +t_tmp < t_min ) t_min = n[k]->min_time_of_arrival + t_tmp;
+			if (n[k]->max_time_of_arrival +t_tmp > t_max ) t_max = n[k]->max_time_of_arrival + t_tmp;
+		}
+
+	max_time_of_arrival = t_max;
+	min_time_of_arrival = t_min;
+
+}

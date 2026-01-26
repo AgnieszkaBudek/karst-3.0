@@ -470,6 +470,11 @@ void Network::print_tables_txt(){
 		VX_out      	   <<endl<<endl<<fixed<<"#" << tot_steps<<". step of evolution: T_tot =  "<<tot_time<<"  ("<<tot_time*dt_unit<<")"<<endl;
 	}
 
+	if(if_run_tracers){
+		min_time_of_arrival_out   <<endl<<endl<<fixed<< "#\tTime step = "  <<tot_steps<<"#\tTime = "  <<tot_time<<endl;
+		max_time_of_arrival_out   <<endl<<endl<<fixed<< "#\tTime step = "  <<tot_steps<<"#\tTime = "  <<tot_time<<endl;
+	}
+
     if( inlet_cut_factor!=1){
 
 
@@ -528,6 +533,11 @@ void Network::print_tables_txt(){
 			pressure_out       <<setprecision(7)<<setw(20)<<n[i]->u;
 			concentration_out  <<setprecision(7)<<setw(12)<<n[i]->cb;
 			concentration2_out <<setprecision(7)<<setw(12)<<n[i]->cc;
+			if(if_run_tracers) {
+				min_time_of_arrival_out << setprecision(7) <<  std::scientific << setw(15) << n[i]->min_time_of_arrival;
+				max_time_of_arrival_out << setprecision(7)  << std::scientific << setw(15) << n[i]->max_time_of_arrival;
+			}
+
 			for(int b=0; b<2;b++)VA_out  <<setprecision(7)<<setw(12)<<g[2*i+b]->Va;
 			for(int b=0; b<2;b++)VE_out  <<setprecision(7)<<setw(12)<<g[2*i+b]->Ve;
 //			for(int b=0; b<2;b++)VX_out  <<setprecision(7)<<setw(12)<<g[2*i+b]->Vx;
@@ -546,6 +556,10 @@ void Network::print_tables_txt(){
 				VE_out              <<endl;
 				VX_out              <<endl;
 				lengths_out         <<endl;
+				if(if_run_tracers) {
+					min_time_of_arrival_out <<endl;
+					max_time_of_arrival_out <<endl;
+				}
 			}
 		}
 	}
@@ -559,6 +573,10 @@ void Network::print_tables_txt(){
 				pressure_out       <<setprecision(7)<<setw(20)<<n[i]->u;
 				concentration_out  <<setprecision(7)<<setw(12)<<n[i]->cb;
 				concentration2_out <<setprecision(7)<<setw(12)<<n[i]->cc;
+				if(if_run_tracers) {
+					min_time_of_arrival_out  << std::scientific<< setprecision(7) << setw(15) << n[i]->min_time_of_arrival;
+					max_time_of_arrival_out  << std::scientific<< setprecision(7) << setw(15) << n[i]->max_time_of_arrival;
+				}
 				VA_out  <<setprecision(7)<<setw(12)<<g[i]->Va;
 				VE_out  <<setprecision(7)<<setw(12)<<g[i]->Ve;
 				VX_out  <<setprecision(7)<<setw(12)<<g[i]->Vx;
@@ -573,6 +591,10 @@ void Network::print_tables_txt(){
 					VE_out              <<endl;
 					VX_out              <<endl;
 					lengths_out         <<endl;
+					if(if_run_tracers) {
+						min_time_of_arrival_out <<endl;
+						max_time_of_arrival_out <<endl;
+					}
 				}
 			}
 		}
@@ -597,6 +619,10 @@ void Network::print_tables_txt(){
                     concentration_out << setprecision(5) << setw(12) << n[i]->cb;
                     concentration2_out << setprecision(5) << setw(12) << n[i]->cc;
                     pressure_out << setprecision(5) << setw(12) << n[i]->u;
+					if(if_run_tracers) {
+						min_time_of_arrival_out  << std::scientific<< setprecision(7) << setw(15) << n[i]->min_time_of_arrival;
+						max_time_of_arrival_out  << std::scientific<< setprecision(7) << setw(15) << n[i]->max_time_of_arrival;
+					}
 
                     for (int b = 0; b < n[i]->bG; b++)
                         if (if_track_grains) {
@@ -620,6 +646,10 @@ void Network::print_tables_txt(){
             VE_out << endl;
             VX_out << endl;
             tmp_out << endl;
+			if(if_run_tracers) {
+				min_time_of_arrival_out <<endl;
+				max_time_of_arrival_out <<endl;
+			}
         }
     }
 
@@ -706,7 +736,7 @@ void Network::  save_all_data(bool if_save_now) {
 		if(if_save_txt)       print_net_txt();
 		if(if_save_table)     print_tables_txt();
 		if(if_save_topology) {export_topology_file(); export_topology_file_with_grains();}
-        if(if_run_tracers) {run_tracers();}
+        if(if_run_tracers) {run_tracers(); search_Min_Max_tracer_time();}
 		pages_saved++;
 	}
 
