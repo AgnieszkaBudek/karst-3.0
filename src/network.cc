@@ -11,21 +11,22 @@ Network::Network (string input_file_name) {
 
 	N_x = 10;		//size of regular network
 	N_y = 10;		//size of regular network
-    H_z = 1.0;      //height of the system for 2D networks, once was set to 1, now its defoult value is 0.5 (to be consistent with the error with dV formula)
+    H_z = 1.0;      //the height of the system for 2D networks, once was set to 1, now its defoult value is 0.5 (to be consistent with the error with dV formula)
 
-	P_in   = N_y-1;   //pressure at the inlet (must by positive)
+	P_in   = N_y-1;   //pressure at the inlet (must be positive)
 	P_out  = 0;	      //pressure at the outlet, always should be set to zero
 	Q_tot  = 2*N_x;   //total flow through the system (if == 0 the constant pressure is kept)
     Q_tot_tmp =0;     // total flow calculated in each time step, can differ form Q_tot if const P is set
 	Va_tot = 0;       //total volume of dissolving species
 	Ve_tot = 0;       //total volume of precipitating species
-	Vx_tot = 0;       //total amount of non reacting species
-	Vx_perc= 0;       // percentage of non reacting species in the system
+	Vx_tot = 0;       //total volume of non-reacting species
+	Vx_perc= 0;       // percentage of non-reacting species in the system
     merge_factor = 0.1; //  ratio of actual an initial volume of a grain below the merging will occur
 
 	//dimenssionless parameters describing evolution of the system
 
-	l0    = 1;		 //initial characteristic pore length (should be always equal to one!!!!)
+    phi_0 = 0.1;
+    l0    = 1;		 //initial characteristic pore length (should be always equal to one!!!!)
 	d0    = 0.1*l0;	 //initial characteristic pore diameter
 	Da    = 1;		 //effective Damkohler number for dissolution
 	Da2   = 1;		 //effective Damkohler number for precipitation
@@ -33,7 +34,7 @@ Network::Network (string input_file_name) {
 	G2    = 1;		 //DaPe for precipitation
 	Pe1   = 1;		 //Peclet number for dissolution (D along pore)
 	Pe2   = 1;		 //Peclet number for precipitation (D along pore)
-	gamma = 1;	     //ratio of acid capacity numbers between dissolution and precipitation (gamma1/gamma2)
+	gamma = 1;	     //the ratio of acid capacity numbers between dissolution and precipitation (gamma1/gamma2)
 	kappa = 1;	     //ratio of Da_1/Da_2 = ratio of reaction rates
 	theta = 1;	     //ratio of G_1/G_2
 	d_min = d0/100.; //minimal possible pore diameter (important in precipitation)
@@ -249,7 +250,7 @@ Network::Network (string input_file_name) {
 	if (!if_track_grains) NG = 0;
 
 //additional options
-	//inlet cuts and setting proper point inlet or outlet
+	//inlet cuts and setting the proper point inlet or outlet
 	create_a_fracture(inlet_cut_factor);
 
 
@@ -262,8 +263,10 @@ Network::Network (string input_file_name) {
 //calculating initial Va volume for grains
 	if(if_track_grains){
 		cerr<<"Calculating initial grain volume..."<<endl;
-		if(type_of_topology != "from_file") for(int i=0;i<NG;i++) g[i]->calculate_initial_volume(this);
-		calculate_initial_total_Va();
+        cerr<<"...and adapting d0 to match porosity."<<endl;
+        if(phi_0>0)adapt_d0_to_meet_target_porosity();
+		else for(int i=0;i<NG;g++) g[i]->calculate_initial_volume( this);
+        calculate_initial_total_Va();
 		calculate_initial_total_Ve();}
 
 

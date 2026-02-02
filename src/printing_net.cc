@@ -344,7 +344,7 @@ void Print_network_in_dissolution_style (ofstream_ps & stream, Network &S){
 		if(p.is_fracture || (p.n[0]->xy - p.n[1]->xy < S.N_x*2./3  && p.d<S.N_x*2 && p.n[0]->xy.z == z_to_print && p.n[1]->xy.z == z_to_print)){
 			//if (p.x == 1)           stream<<Porek(p.n[0]->xy,p.n[1]->xy,p.d ,p.tmp,kkk);
 			//else                    stream<<Porek(p.n[0]->xy,p.n[1]->xy,p.d ,p.tmp,kkk);
-            double ww =p.d/4.;
+            double ww =p.d/1.2;
             if(p.is_fracture)
                 ww=0.5;
 

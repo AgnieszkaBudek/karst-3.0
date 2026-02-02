@@ -101,6 +101,7 @@ class Network
 		double dt_unit;     ///< unit of time step (in dimensionless units [d0/(2 k1 * gamma_1)] or in diffusion limited case 2 DD1*Sh*gamma/d0^2)
 
 		// dimenssionless parameters
+		double phi_0;   ///< initial porosity
 		double d0;		///< initial characteristic pore diameter [natural unit is l0]
 		double l0;		///< initial characteristic pore length (l0 is by defoult set to one)
 		double Da;		///< effective Damkohler number for dissolution
@@ -293,8 +294,13 @@ class Network
 		void add_randomness_to_regular_network(double d_sigma, double max_nodes_shift);   ///< Add random node position shift or random initial diameters for hexagonal network
 		void add_information_about_grains_in_nodes();					///< if tracking grains is necessary we need info of grain in connected nodes
 		void add_information_about_grains_in_pores();					///< if tracking grains is necessary we need info of grain in connected pores
+	    void adapt_d0_to_meet_target_porosity();
+		inline double estimate_d0 (double phi_tmp){
+			//return sqrt(2/M_PI)*pow(1+phi_tmp,1./3);
+            return std::sqrt((3.0 / (std::sqrt(3.0) * M_PI)) * (1.0 - std::pow(1.0 - phi_0, 2.0/3.0)));
+		}
 
-// maintaining the network
+		// maintaining the network
 		Pore*  findPore   (Node* n1, Node* n2);
 		Grain* findGrain_T(Node* n1, Node* n2, Node *n3);
 		Grain* findGrain  (Node* n1, Node* n2, Node *n3);

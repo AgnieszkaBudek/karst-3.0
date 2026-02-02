@@ -138,6 +138,11 @@ void::Network::read_setup_file(ifstream& fp_setup){
             cerr<< "Additionally setting d_min = "<<d_min<<endl;
             }
 
+		else if(name == "phi_0"){
+			phi_0 = stod(value);
+			cerr<< "Setting phi_0 = "<<phi_0<<endl;
+		}
+
 		else if(name == "l0"){
 			l0 = stod(value);
 			cerr<< "Setting l0 = "<<l0<<endl;}

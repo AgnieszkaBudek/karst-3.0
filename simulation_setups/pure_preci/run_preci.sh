@@ -1,14 +1,14 @@
 #! /bin/sh
 
 printf "Preparing the simulation...\n\n"
-
-bash ./build.sh
+karst_path="$HOME/Desktop/KARST/karst_3.0/"
+bash "$karst_path"/build.sh
 if ! bash ./build.sh; then
     echo "Problem with compilation."
     exit 1
 fi
 
-cd ~/Desktop/KARST/DATA/2D || exit
+cd ~/Desktop/KARST/DATA/2D || exit      #edit your DATA path
 
 # Creating proper directory
 current_date_time=$(date +small_%Y_%m_%d_%H_%M)
@@ -22,55 +22,48 @@ else
 fi
 
 cd "$current_date_time" || exit
-cp ~/Desktop/KARST/karst_3.0/simulation_setups/2D/config_small.txt ./config.txt || exit
+cp "$karst_path"/simulation_setups/pure_preci/config.txt ./config.txt || exit
 
 
 printf "Running the simulation...\n\n"
 
-Da=0.5
-gamma=1
-kappa=1000
-dmin=0.001
-cut=true
 
 
 Da=0.1
 phi=0.1
 
+type_of_topology="triangulation"
 los=123
-kappa=0.0001
+gauss_sigma_d=0.1
+nodes_repulsion=0.75
+
 for Da in 0.1
 do
-  for gamma in  0
-  do
   (
-                param=Da-$Da-d0-$d0-gamma-$gamma-kappa-$kappa
+                param=Da-$Da-d0-$d0-gamma-1-kappa-1
                 printf "Creating variant: %s\n" "$param"
                 mkdir $param
                 cd    $param || exit
                 cp ../config.txt .
 
                 {
-                  echo gamma = $gamma
-                  echo kappa = $kappa
+
                   echo Da    = $Da
                   echo phi_0    = $phi
-                  echo gauss_sigma_d = 0.01 #.001
+                  echo gauss_sigma_d = $gauss_sigma_d #.001
                   echo random_seed = $los
-                  echo Cb_0 = 1
-                  echo Cc_0 = 0
-                  echo nodes_repulsion = 0.75
-                  echo N_tracers = 10
+                  echo nodes_repulsion = $nodes_repulsion
+                  echo N_tracers = $N_tracers
+                  echo type_of_topology = $type_of_topology
 c
 
                 } >> config.txt
 
 #               {
-                 time ~/Desktop/KARST/karst_3.0/build/karst  config.txt  #  >wyjscie.out 2>bledy.out
-#                 } 2>czas.tmp  &
+                 time "$karst_path"/build/karst  config.txt  #  >out1.out 2>out2.out
+#                 } 2>time.tmp  &
 
              )
-done
 done
 
 

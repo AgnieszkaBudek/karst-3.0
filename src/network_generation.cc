@@ -77,6 +77,30 @@ void Network :: calculate_initial_total_Va(){
 
 }
 
+void Network::adapt_d0_to_meet_target_porosity(){
+
+    double eps = 0.0001;
+
+    double V_tot = N_x*N_y*l0;
+    double V_tmp=0;
+    for (int i = 0; i < NG; i++) g[i]->calculate_initial_volume(this);
+    for (int i = 0; i < NG; i++) V_tmp += g[i]->Va;
+    double phi_tmp = (V_tot-V_tmp)/V_tot;
+    while(fabs((V_tot-V_tmp)/V_tot - phi_0)>eps) {
+        phi_tmp = (V_tot-V_tmp)/V_tot;
+        double frac = sqrt(phi_0/phi_tmp);
+        d0 *= frac;
+        for (int i=0;i<NP;i++) p[i]->d *= frac;
+        V_tmp = 0;
+        for (int i = 0; i < NG; i++) g[i]->calculate_initial_volume(this);
+        for (int i = 0; i < NG; i++) V_tmp += g[i]->Va;
+        cerr<<"phi_tmp = "<<phi_tmp<<"\t phi_0 = "<<phi_0<<endl;
+        cerr<<"d0 = "<<d0<<endl<<endl;
+    }
+
+
+}
+
 /**
 * This function calculates the initial total volume of species E
 *
@@ -310,6 +334,12 @@ void Network::add_randomness_to_regular_network(double d_sigma, double max_nodes
 * @date 25/09/2019
 */
 void Network:: createRandomTrianglesNetwork(int N_x, int N_y){
+
+    if(phi_0>0) {
+		d0 = estimate_d0(phi_0);
+		cerr << "(Based on  phi_0 = " << phi_0 << "\t";
+		cerr << "(Estimated d0 = " << d0 << endl;
+	}
 
 	double eps =1.;  //parameter for regular network threshold
 
