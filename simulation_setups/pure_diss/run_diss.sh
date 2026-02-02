@@ -36,11 +36,12 @@ gauss_sigma_d=-0.01  #positive - gaussian, negative log-normal with sigma = abs(
 nodes_repulsion=0.75  # only for triangulation topology
 los=123  #fortune
 N_tracers=10   #per inlet node
-
-for Da in 0.1
+for phi in 0.05 0.1 0.15
+do
+for Da in 0.1 0.5
 do
   (
-                param=Da-$Da-d0-$d0-gamma-0-kappa-1
+                param=Da-$Da-phi_0-$phi
                 printf "Creating variant: %s\n" "$param"
                 mkdir $param
                 cd    $param || exit
@@ -58,11 +59,11 @@ do
 
                 } >> config.txt
 
-#               {
+               {
                  time "$karst_path"/build/karst  config.txt    >out1.out 2>out2.out
-#                 } 2>time.tmp  &
+                 } 2>time.tmp  &
 
              )
 done
-
+done
 
