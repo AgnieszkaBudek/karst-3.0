@@ -81,13 +81,12 @@ void Network::adapt_d0_to_meet_target_porosity(){
 
     double eps = 0.0001;
 
-    double V_tot = N_x*N_y*l0;
     double V_tmp=0;
     for (int i = 0; i < NG; i++) g[i]->calculate_initial_volume(this);
-    for (int i = 0; i < NG; i++) V_tmp += g[i]->Va;
-    double phi_tmp = (V_tot-V_tmp)/V_tot;
-    while(fabs((V_tot-V_tmp)/V_tot - phi_0)>eps) {
-        phi_tmp = (V_tot-V_tmp)/V_tot;
+    for (int i = 0; i < NG; i++) V_tmp += g[i]->Va+g[i]->Vx+g[i]->Ve;
+    double phi_tmp = (V_TOT-V_tmp)/V_TOT;
+    while(fabs((V_TOT-V_tmp)/V_TOT - phi_0)>eps) {
+        phi_tmp = (V_TOT-V_tmp)/V_TOT;
         double frac = sqrt(phi_0/phi_tmp);
         d0 *= frac;
         for (int i=0;i<NP;i++) p[i]->d *= frac;

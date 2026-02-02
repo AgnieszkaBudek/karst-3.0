@@ -31,11 +31,12 @@ printf "Running the simulation...\n\n"
 Da=0.1
 phi=0.1
 
-type_of_topology="triangulation"
-gauss_sigma_d=0.01
-nodes_repulsion=0.75
-los=123
-N_tracers=10
+type_of_topology="triangulation" #diamond
+gauss_sigma_d=-0.01  #positive - gaussian, negative log-normal with sigma = abs(gauss_sigma_d)
+nodes_repulsion=0.75  # only for triangulation topology
+los=123  #fortune
+N_tracers=10   #per inlet node
+
 for Da in 0.1
 do
   (
@@ -58,7 +59,7 @@ do
                 } >> config.txt
 
 #               {
-                 time "$karst_path"/build/karst  config.txt  #  >out1.out 2>out2.out
+                 time "$karst_path"/build/karst  config.txt    >out1.out 2>out2.out
 #                 } 2>time.tmp  &
 
              )

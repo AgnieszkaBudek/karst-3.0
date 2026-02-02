@@ -274,7 +274,7 @@ void Network::write_time_step_properties(){
                 "plots"         <<setw(15)<<\
                 "percolation"   <<setw(15)<<\
                 "sim_state"     <<setw(15)<<\
-				"d_in_max"      <<setw(15)<<\
+				"phi"           <<setw(15)<<\
 				"s_tot"         <<setw(15)<<endl;
 		time_evolution_out<<"#  ----------------------------------------------------------------------------------------------------------------"<<endl;
 	}
@@ -315,7 +315,7 @@ void Network::write_time_step_properties(){
             pages_saved<<setw(15)<<\
             percolation<<setw(15)<<\
             sim_state  <<setw(15)<<\
-			d_in_max   <<setw(15)<<\
+			(V_TOT-Va_tot-Ve_tot-Vx_tot)/V_TOT   <<setw(15)<<\
 			s_tot  <<endl<<flush;
 }
 

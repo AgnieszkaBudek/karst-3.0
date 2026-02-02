@@ -264,7 +264,10 @@ Network::Network (string input_file_name) {
 	if(if_track_grains){
 		cerr<<"Calculating initial grain volume..."<<endl;
         cerr<<"...and adapting d0 to match porosity."<<endl;
-        if(phi_0>0)adapt_d0_to_meet_target_porosity();
+		V_TOT = 0;
+		for(int i=0;i<NG;i++) V_TOT += g[i]->calculate_maximal_volume( this);
+		cerr<<"V_TOT = "<<V_TOT<<endl;
+        if(phi_0>0) adapt_d0_to_meet_target_porosity();
 		else for(int i=0;i<NG;g++) g[i]->calculate_initial_volume( this);
         calculate_initial_total_Va();
 		calculate_initial_total_Ve();}

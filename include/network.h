@@ -116,6 +116,7 @@ class Network
 		double d_min;	///< minimal possible pore diameter (important for precipitation)
 		double d_min_factor; ///< d_min = d0*d_min_factor
 		double l_min;   ///< minimal pore length (for numerical reason)
+		double V_TOT;    ///< maximal volume of the system
 
         double K_goal       = 1;    ///< our goal permeability
         double K_0          = 0;    ///< permeability at the beggining of the simulation
