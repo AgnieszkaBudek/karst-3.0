@@ -92,9 +92,11 @@ void Network::adapt_d0_to_meet_target_porosity(){
         for (int i=0;i<NP;i++) p[i]->d *= frac;
         V_tmp = 0;
         for (int i = 0; i < NG; i++) g[i]->calculate_initial_volume(this);
-        for (int i = 0; i < NG; i++) V_tmp += g[i]->Va;
+        for (int i = 0; i < NG; i++) V_tmp += g[i]->Va + g[i]->Vx + g[i]->Ve;
         cerr<<"phi_tmp = "<<phi_tmp<<"\t phi_0 = "<<phi_0<<endl;
         cerr<<"d0 = "<<d0<<endl<<endl;
+
+        if(d0 > l0 || d0 < 0.0001) {cerr<<"Problem with setting d0 based on phi_0. "<<endl;exit(123);}
     }
 
 

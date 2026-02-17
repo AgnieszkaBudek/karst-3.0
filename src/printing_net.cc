@@ -30,7 +30,7 @@ ofstream_ps & operator << (ofstream_ps & stream, Grain &g){
 ofstream_ps & print_grain_with_scaling (ofstream_ps & stream, Grain &g, Network &S){
 
     //cerr<<"Printing grain "<<g<<endl;
-    if(g.Va + g.Ve <=0) {
+    if(g.get_volume() <=0) {
         //cerr<<"WARNING: Empty grain wants to be printed: "<<g<<endl;
         return stream;
     }
@@ -40,11 +40,12 @@ ofstream_ps & print_grain_with_scaling (ofstream_ps & stream, Grain &g, Network 
         if(g.bN==2){
           //wariant z linia zamiast kropki....
             double color_f = 2.;
+            double color_fg = 0.5;
 
-            auto color = Kolor(color_f * g.Ve / (g.Va + color_f * g.Ve), 0, g.Va / (g.Va + color_f * g.Ve));
+            auto color = Kolor(color_f * g.Ve / (g.Va + color_f * g.Ve+g.Vx), color_fg*g.Vx/g.get_volume(), g.Va / (g.Vx+g.Va + color_f * g.Ve));
             //for(int i=0;i<g.bP;i++) if(g.p[i]->is_fracture) color = Kolor(0.1,0.8,0.1);
 
-            double factr = (g.Va + g.Ve + g.Vx)/(g.V0)/2;
+            double factr = g.get_volume()/g.V0/2;
             if (factr<0)   factr = 0;
             if (factr>1)   factr = 1;
             if (!(factr>=0)) factr=0;
@@ -79,7 +80,7 @@ ofstream_ps & print_grain_with_scaling (ofstream_ps & stream, Grain &g, Network 
         }
 
 		return stream; }
-	if(g.Va + g.Ve + g.Vx <=0)  return stream;
+	if(g.get_volume() <=0)  return stream;
 
 	int b = g.bN;
 	Point *PP = S.initial_xy[g.a];
@@ -97,7 +98,7 @@ ofstream_ps & print_grain_with_scaling (ofstream_ps & stream, Grain &g, Network 
         p0 = p0+p[i];}
 	p0 = (1./b)*p0;
 	Point p00 = (-1.)*p0;
-	double factr = (g.Va + g.Ve + g.Vx)/g.calculate_maximal_volume(&S)/S.H_z;  //consider using sqrt?
+	double factr = g.get_volume()/g.calculate_maximal_volume(&S)/S.H_z;  //consider using sqrt?
 	if (factr<0)   factr = 0;
 	if (factr>1)   factr = 1;
 	if (!(factr>=0)) factr=0;
@@ -112,8 +113,8 @@ ofstream_ps & print_grain_with_scaling (ofstream_ps & stream, Grain &g, Network 
 
 	Kolor color =  Kolor(0.33,0.33,0.33);
 	//fancy color for precipitation
-	double factor = 2;
-	if (S.if_precipitation)  color = Kolor( factor*g.Ve/(g.Va+factor*g.Ve),0,g.Va/(g.Va+factor*g.Ve));
+	double factor = 2, color_fg=0.5;
+	if (S.if_precipitation)  color = Kolor( factor*g.Ve/(g.Va+factor*g.Ve+g.Vx), color_fg*g.Vx/g.get_volume(),g.Va/(g.Va+factor*g.Ve+g.Vx));
     //for(int i=0;i<g.bP;i++) if(g.p[i]->is_fracture) color = Kolor(0.1,0.8,0.1);
 
 	if(g.bN==3)  stream<<Trojkacik(pp[0],pp[1],pp[2],666,color)<<endl;

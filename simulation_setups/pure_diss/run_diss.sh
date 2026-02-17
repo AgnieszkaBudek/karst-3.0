@@ -32,13 +32,13 @@ Da=0.1
 phi=0.1
 
 type_of_topology="triangulation" #diamond
-gauss_sigma_d=-0.01  #positive - gaussian, negative log-normal with sigma = abs(gauss_sigma_d)
-nodes_repulsion=0.75  # only for triangulation topology
+gauss_sigma_d=0  #positive - gaussian, negative log-normal with sigma = abs(gauss_sigma_d)
+nodes_repulsion=0  # only for triangulation topology
 los=123  #fortune
 N_tracers=10   #per inlet node
 for phi in 0.05 0.1 0.15
 do
-for Da in 0.1 0.5
+for Da in 1 2 10 #0.1 0.5
 do
   (
                 param=Da-$Da-phi_0-$phi

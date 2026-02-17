@@ -82,6 +82,7 @@ class Grain{
 		Grain& operator = (Grain &g);
 
 		void   calculate_initial_volume (Network *S);
+		double get_volume() {return Va+Ve+Vx;}
 		double calculate_maximal_volume (Network *S);
 		void   change_nodes(Node *n_old, Node *n_new);
 		void   change_pores(Pore *p_old,Pore * p_new);

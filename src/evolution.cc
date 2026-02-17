@@ -103,6 +103,10 @@ void Network::do_one_euler_step(){
 
 	if(if_adaptive_dt)      adapt_dt();           //adapt dt
 	if(if_full_dissolution) check_if_dissolved(); //check if the system is dissolved
+    if(Va_tot<0.01*(1-phi_0)*V_TOT*(1-Vx_perc)) {
+		if_system_dissolved = true;       //stoping simulation if there is no A material left in the system
+		cerr<<"Simulation finished due tu lack of A species."<<endl;
+	}
     //checking percolation
     if (!if_percolation && find_percolation()>0 && tot_steps>10){
         cerr<<"\nSystem clogged due to d_min percolation.\nSimulation finished."<<endl;

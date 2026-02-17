@@ -39,29 +39,32 @@ phi=0.1
 
 los=123
 kappa=0.0001
-for Da in 0.1
+Vx=0.1
+for phi in 0.1
+do
+for Da in 0.1 # 1 0.01
 do
   for gamma in  0
   do
   (
-                param=Da-$Da-d0-$d0-gamma-$gamma-kappa-$kappa
+                param=Da-$Da-phi-$phi-gamma-$gamma-kappa-$kappa-Vx-$Vx
                 printf "Creating variant: %s\n" "$param"
                 mkdir $param
                 cd    $param || exit
                 cp ../config.txt .
 
                 {
+                  echo Vx_perc = $Vx
                   echo gamma = $gamma
                   echo kappa = $kappa
                   echo Da    = $Da
                   echo phi_0    = $phi
-                  echo gauss_sigma_d = 0.01 #.001
+                  echo gauss_sigma_d = 0 #.001
                   echo random_seed = $los
                   echo Cb_0 = 1
                   echo Cc_0 = 0
                   echo nodes_repulsion = 0.75
                   echo N_tracers = 10
-c
 
                 } >> config.txt
 
@@ -70,6 +73,7 @@ c
 #                 } 2>czas.tmp  &
 
              )
+done
 done
 done
 
