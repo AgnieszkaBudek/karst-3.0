@@ -56,7 +56,7 @@ double Pore::calculate_outlet_cb(){
 * @author Agnieszka Budek
 * @date 25/09/2019
 */
-double Pore::calculate_inlet_cc(){
+double Pore::calculate_inlet_cc() const {
 	if (q>0)  return n[0]->cc;
 	else      return n[1]->cc;
 }
@@ -150,7 +150,7 @@ double Pore::local_G(Network* S){
     //double d_tmp = min(1,d);  //possible feature for a fracture
 
 	if     (S->G1==0)	return	0;						         // reaction limited case, G = 0
-	else if(S->G1>0 )	return  S->G1*d/S->d0;	             // mixed case: k1 ~ DD1
+	else if(S->G1>0 )	return  x_factor()*S->G1*d/S->d0;	             // mixed case: k1 ~ DD1
 	else			    return  -1;							     // diffusion limited case, convention: G<0 => G = Inf
 
 }
@@ -166,7 +166,7 @@ double Pore::local_G_2(Network* S){
     //double d_tmp = min(1,d);   //possible feature for a fracture
 
 	if     (S->G2==0)	return	0;						         // reaction limited case, G = 0
-	else if(S->G2>0 )	return  S->G2*S->kappa*d/S->d0;	         // mixed case: k1 ~ DD1 //15.12.2025 : Important change for G2 tracking.
+	else if(S->G2>0 )	return  x_factor()*S->G2*S->kappa*d/S->d0;	         // mixed case: k1 ~ DD1 //15.12.2025 : Important change for G2 tracking.
 	else			    return  -1;							     // diffusion limited case, convention: G<0 => G = Inf
 
 }
@@ -184,15 +184,62 @@ double Pore::local_Da_eff(Network* S){
 
     //formula for aperture
     if((d>S->H_z and !S->no_max_z) or (S->sandwich_pores and is_fracture)) {
-        if (G > 0)  return S->Da * (1 / S->d0) * (l / S->l0) * (S->q_in_0 / fabs(q)) * ((1 + S->G1) / (1 + G));
-        if (G == 0) return S->Da * (1 / S->d0) * (l / S->l0) * (S->q_in_0 / fabs(q));
+        if (G > 0)  return x_factor()*S->Da * (1 / S->d0) * (l / S->l0) * (S->q_in_0 / fabs(q)) * ((1 + S->G1) / (1 + G));
+        if (G == 0) return x_factor()*S->Da * (1 / S->d0) * (l / S->l0) * (S->q_in_0 / fabs(q));
     }
 
     // old formula for a cylinder
-	if      (G>0)    return S->Da*(d/S->d0)*(l/S->l0)*(S->q_in_0/fabs(q))*((1+S->G1)/(1+G));
-	else if (G==0)   return S->Da*(d/S->d0)*(l/S->l0)*(S->q_in_0/fabs(q));
-	else             return S->Da*(l/S->l0)*(S->q_in_0/fabs(q));
+	if      (G>0)    return x_factor()*S->Da*(d/S->d0)*(l/S->l0)*(S->q_in_0/fabs(q))*((1+S->G1)/(1+G));
+	else if (G==0)   return x_factor()*S->Da*(d/S->d0)*(l/S->l0)*(S->q_in_0/fabs(q));
+	else             return x_factor()*S->Da*(l/S->l0)*(S->q_in_0/fabs(q));
 }
+
+
+double Pore::x_factor () const{
+
+	if (Pore::if_no_surface_tracking) return 1;
+
+	double Va = 0;
+	double Vx = 0;
+	double Ve = 0;
+
+	for (int i=0; i<bG; i++) {
+		Va += g[i]->Va;
+		Ve += g[i]->Ve;
+		Vx += g[i]->Vx;
+	}
+
+	return Va/(Va+Ve+Vx);
+}
+
+double Pore::e_factor (double cth) {
+
+	//TODO: Test it!!!;
+
+    if (Pore::if_no_surface_tracking) return 1;
+
+    double Va = 0;
+    double Vx = 0;
+    double Ve = 0;
+
+    for (int i=0; i<bG; i++) {
+        Va += g[i]->Va;
+        Ve += g[i]->Ve;
+        Vx += g[i]->Vx;
+    }
+
+	if(is_nucleated) return Ve/(Va+Ve+Vx);
+
+	double cc_in = calculate_inlet_cc();
+	double tmp = log(1 + cth)/log(1 + cc_in);
+	double p = exp(-tmp*tmp)*M_PI*d*l;
+	if((double)rand() / RAND_MAX > p) return 0;
+	else {
+		is_nucleated = true;
+		return Ve/(Va+Ve+Vx);
+	}
+}
+
 
 double Pore::is_there_precipitation(Network *S){
 
@@ -227,7 +274,7 @@ double Pore::local_Da_eff_2(Network* S){
 
 	if (q==0) return -1;
 	double G = this->local_G_2(S);
-    double Da2local = S->Da2;
+    double Da2local = e_factor(0.1)*S->Da2; ///cth = 0.1 chosen to manipulate C_0 (global inlet concentration) form 0 to 1
 
     //double d_tmp = min(1,d);     //possible feature for a fracture
 

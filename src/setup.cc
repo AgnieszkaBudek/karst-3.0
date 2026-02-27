@@ -358,6 +358,13 @@ void::Network::read_setup_file(ifstream& fp_setup){
 			else                     cerr<<"WARNING: Wrong value of variable if_adaptive_dt. Set true or false."<<endl;
 			cerr<< "Setting if_adaptive_dt = "<<if_adaptive_dt<<endl;}
 
+		else if(name == "if_no_surface_tracking"){
+			if      (value == "true" )   Pore::if_no_surface_tracking  = true;
+			else if (value == "false")   Pore::if_no_surface_tracking  = false;
+			else                     cerr<<"WARNING: Wrong value of variable Pore::if_no_surface_tracking. Set true or false."<<endl;
+			cerr<< "Setting Pore::if_no_surface_tracking = "<<Pore::if_no_surface_tracking<<endl;}
+
+
 		else if(name == "if_recalculate_physical_parameters"){
 			if      (value == "true" )   if_recalculate_physical_parameters  = true;
 			else if (value == "false")   if_recalculate_physical_parameters  = false;

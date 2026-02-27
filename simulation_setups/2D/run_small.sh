@@ -38,13 +38,13 @@ Da=0.1
 phi=0.1
 
 los=123
-kappa=0.0001
-Vx=0.1
+kappa=1
+Vx=0.5
 for phi in 0.1
 do
-for Da in 0.1 # 1 0.01
+for Da in 0.5  # 1 0.01
 do
-  for gamma in  0
+  for gamma in  1
   do
   (
                 param=Da-$Da-phi-$phi-gamma-$gamma-kappa-$kappa-Vx-$Vx
@@ -61,15 +61,16 @@ do
                   echo phi_0    = $phi
                   echo gauss_sigma_d = 0 #.001
                   echo random_seed = $los
-                  echo Cb_0 = 1
+                  echo Cb_0 = 0.5
                   echo Cc_0 = 0
                   echo nodes_repulsion = 0.75
                   echo N_tracers = 10
+                  echo if_no_surface_tracking = true
 
                 } >> config.txt
 
 #               {
-                 time ~/Desktop/KARST/karst_3.0/build/karst  config.txt  #  >wyjscie.out 2>bledy.out
+                 time ~/Desktop/KARST/karst_3.0/build/karst  config.txt    >wyjscie.out 2>bledy.out
 #                 } 2>czas.tmp  &
 
              )

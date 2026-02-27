@@ -52,6 +52,7 @@ class Pore{
 		int    a;       ///< pore number (name)
 		bool is_active; ///< if false reactions doesn't take place in it
 		bool is_fracture;  ///< if true the pore belongs to the fracture and behave differently
+        bool is_nucleated = false;
 
 		int bG;		    ///< number of grains in vicinity
 
@@ -62,6 +63,7 @@ class Pore{
 		signed char x;  ///< additional info about pore (if connected to the dissolution pattern)
 		double tmp;		///< temporal informations (info to be printed)
 
+		inline static bool if_no_surface_tracking = false;
 
 	public:
 
@@ -74,8 +76,9 @@ class Pore{
 		//void   diss (double Va, double Ve);							///< precipitation and dissolution of the material: calculate change of d and l
 		double calculate_inlet_cb();									///< calculate inlet concentration of the species B
 		double calculate_outlet_cb();									///< calculate outlet concentration of the species B
-		double calculate_inlet_cc();									///< calculate inlet concentration of the species C
+		double calculate_inlet_cc() const;									///< calculate inlet concentration of the species C
 		double calculate_outlet_cc();									///< calculate outlet concentration of the species C
+
 
 
 		void   calculate_actual_length (Network *S = NULL, double l_max=10, double l_0=1);	///< calculate initial pore length
@@ -87,7 +90,8 @@ class Pore{
 		bool   is_Ve_left();						///< return false if there is no Va material left
 		double default_dd_plus(Network*S);		///< change in diameter as a result of dissolution
 		double default_dd_minus(Network*S);    ///< default change in diameter as a result of precipitation (no space condition is checked)
-
+		double x_factor () const;
+        double e_factor (double) ;
 
 		void   remove_info_from_attached_nodes(); 			///< remove this pore from the list of connected nodes
 		void   remove_info_from_attached_grains();			///< remove this pore from the list of connected grains
