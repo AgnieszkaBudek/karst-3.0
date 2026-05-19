@@ -603,6 +603,7 @@ void Network::print_tables_txt(){
         for (int linia = 0; linia < N_y; linia++) {
             for (int i = 0; i < NN; i++)
                 if (linia < n[i]->xy.y and n[i]->xy.y < linia + 1) {
+				//if (linia < sqrt(pow((n[i]->xy.y-N_y/2),2)+pow((n[i]->xy.x-N_x/2),2)) and sqrt(pow((n[i]->xy.y-N_y/2),2)+pow((n[i]->xy.x-N_x/2),2)) < linia + 1) {
 
                     for (int b = 0; b < n[i]->b; b++) {
 

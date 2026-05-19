@@ -221,6 +221,13 @@ void Grain::calculate_initial_volume (Network *S){
 		//cerr<<"Problematic pores: "<<" p = ("<<p[0]->l<<","<<p[1]->l<<","<<p[2]->l<<")"<<endl;
 	}
 
+//	//temporal coloring for legend purpose:
+//	double coloring_f=0.;
+//	for (int i=0;i<bN;i++) coloring_f +=n[i]->xy.y/S->N_y/bN;
+//	Ve = coloring_f*Va;
+//	Va = (1-coloring_f)*Va;
+//	Vx = 0;
+
 	//updating Vx percentage
 	if(S->Vx_perc > 0){
 		Vx = S->Vx_perc*Va;
