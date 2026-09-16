@@ -130,7 +130,7 @@ Network::Network (string input_file_name) {
     if_cut_d_min                         = false;        //if true the d<=d_min -> d=0
 
     if_dynamic_k2                        = false;        // if true the Da2_eff will be multiplied by sigma function
-    dyn_k2_alpha                         = 2;            //sigma parameters
+    dyn_k2_alpha                         = 1000;            //sigma parameters
     dyn_k2_c0                            = 0.1;          //sigma parameters
     C_eq                                 = 0;            //below C_eq precipitation do not occur (or occurs in the other direction)
 

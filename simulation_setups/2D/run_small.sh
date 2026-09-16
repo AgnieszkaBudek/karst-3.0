@@ -40,20 +40,26 @@ phi=0.1
 los=123
 kappa=1
 Vx=0
-for phi in 0.1
+dyn_k2_c0=1.0
+gamma=1
+dyn_k2_c0=1
+for phi in  0.2
 do
 for Da in 0.5  # 1 0.01
 do
-  for gamma in  1
+  for dyn_k2_c0 in  0
+
   do
   (
-                param=Da-$Da-phi-$phi-gamma-$gamma-kappa-$kappa-Vx-$Vx
+                param=Da-$Da-phi-$phi-gamma-$gamma-kappa-$kappa-dyn_k2_c0-$dyn_k2_c0
                 printf "Creating variant: %s\n" "$param"
                 mkdir $param
                 cd    $param || exit
                 cp ../config.txt .
 
                 {
+                  echo if_dynamic_k2  = true
+                  echo dyn_k2_c0  = $dyn_k2_c0
                   echo Vx_perc = $Vx
                   echo gamma = $gamma
                   echo kappa = $kappa
@@ -70,7 +76,7 @@ do
                 } >> config.txt
 
 #               {
-                 time ~/Desktop/KARST/karst_3.0/build/karst  config.txt    >wyjscie.out 2>bledy.out
+                 time ~/Desktop/KARST/karst_3.0/build/karst  config.txt    >wyjscie.out 2>bledy.out&
 #                 } 2>czas.tmp  &
 
              )

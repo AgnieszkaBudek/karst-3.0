@@ -29,7 +29,7 @@ l_min = 0.001                  # minimal pore length (meters with no merging mec
 #  Dynamics
 
 
-T_max       = 20       # tot time of the simulation
+T_max       = 4       # tot time of the simulation
 dt          = 0.0001         # time step (in dimensionless units [2 k1 * gamma_1/d0])
 d_d_max     = 0.1     	    # maximal change of pore diameter in one step (in % if obtained then dt = 2/3 dt)
 d_d_min     = 0.01 #0.01 	        # minimal change of pore diameter in one step (in % if not obtained then dt = 1.2dt)
@@ -102,7 +102,7 @@ type_of_merging                    = none #merge_empty_grains        # type of m
 if_cut_d_min                       = true        # cutting completely pores with d<=d_min
 merge_factor                       = 0.1         # ratio of current to initial grain volume below it will be merged
 pressure_drop_with_max_l           = true
-if_no_surface_tracking             = false        # if true effective surface (X) tracking is not performed
+if_no_surface_tracking             = true        # if true effective surface (X) tracking is not performed
 
 
 # dynamic k2!!!
