@@ -214,6 +214,7 @@ double Pore::x_factor () const{
 
 double Pore::e_factor (double cth) {
 
+    return 1;
 	//TODO: Test it!!!;
 
     if (Pore::if_no_surface_tracking) return 1;

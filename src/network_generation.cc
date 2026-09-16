@@ -277,7 +277,7 @@ void Network::      createHexagonalNetwork(int N, int M){
 */
 void Network::add_randomness_to_regular_network(double d_sigma, double max_nodes_shift){
 
-	cerr<<"Adding randomness to hexagonal network..."<<endl;
+	cerr<<"Adding randomness to the network..."<<endl;
 	double d_max = 1;
 	if(fabs(d_sigma)>0){  //calculating new, random diameters
 		int i=NP-1;
@@ -483,6 +483,8 @@ void Network:: createRandomTrianglesNetwork(int N_x, int N_y){
 
     if (if_radial_geometry){
 
+		cerr<<"Creating radial geometry..."<<endl;
+
         //setting single inlet in the systems centre
         Point xy_center  = Point( N_x/2., N_y/2.);    // center of the s system
         Node * n_in_tmp = n[0];                 // candidate for the inlet node
@@ -519,6 +521,7 @@ void Network:: createRandomTrianglesNetwork(int N_x, int N_y){
 
     else{
         //inlet and outlet pores for square geometry
+		cerr<<"Creating rectangular geometry..."<<endl;
         for (int i=0; i<NN; i++)
             if(int(n[i]->xy.y)==0)     N_wi++;
             else break;
@@ -579,7 +582,6 @@ void Network:: createRandomTrianglesNetwork(int N_x, int N_y){
 
 	cerr<<"Random triangles network has been created (using triangulation)."<<endl;
 
-	return;
 }
 
 

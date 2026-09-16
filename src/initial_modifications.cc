@@ -5,6 +5,7 @@ void Network :: create_a_fracture(double factor, Node *n_1, Node *n_2) {
 
 
     cerr << "Creating a single - layer fracture" << endl;
+    if(if_radial_geometry) return;
 
     //1. Optionally finding the inlet at the center of the system:
     if (n_1 == nullptr) {
